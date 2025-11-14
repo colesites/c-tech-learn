@@ -7,10 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <section className="">
       <Header />
       {children}
       <Footer />
-    </div>
+    </section>
   );
 }
