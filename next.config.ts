@@ -14,7 +14,9 @@ const nextConfig: NextConfig = {
     		return [
     			{
     				source: '/api/c15t/:path*',
-    				destination: `${process.env.NEXT_PUBLIC_C15T_URL}/:path*`,
+    				// Ensure destination is always a valid string starting with "/" or a full URL
+    				// If NEXT_PUBLIC_C15T_URL is not defined, this will default to a relative path
+    				destination: `${process.env.NEXT_PUBLIC_C15T_URL || ''}/:path*`,
     			},
     		];
     	}
