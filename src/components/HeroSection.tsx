@@ -127,7 +127,7 @@ const HeroSection = () => {
           href="/all-courses"
           className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
         >
-          <span className="text-foreground text-sm">
+          <span className="text-foreground text-sm xl:text-4xl">
             Start Your Learning Journey
           </span>
           <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
@@ -151,11 +151,11 @@ const HeroSection = () => {
           delay={150}
           animateBy="words"
           direction="top"
-          className="my-8 flex flex-wrap justify-center text-4xl font-bold md:text-6xl"
+          className="my-8 flex flex-wrap justify-center text-4xl font-bold md:text-6xl xl:text-[4rem]"
         />
       </div>
 
-      <p className="hero-description opacity-0 mx-auto text-center font-medium text-[1.5rem] max-w-[300px] md:max-w-2xl md:text-xl">
+      <p className="hero-description opacity-0 mx-auto text-center font-medium text-[1.5rem] max-w-[300px] md:max-w-2xl md:text-xl xl:text-2xl">
         Build your tech journey with hands-on skills in{" "}
         <RotatingText
           texts={["Front-End", "Back-End", "Full-Stack"]}
@@ -172,8 +172,8 @@ const HeroSection = () => {
       </p>
 
       <div className="hero-cta opacity-0 flex gap-4 mt-8">
-        <RainbowButton className="dark:text-black">Get Started</RainbowButton>
-        <RainbowButton variant="outline">Sign In</RainbowButton>
+        <RainbowButton className="dark:text-black xl:text-2xl h-12">Get Started</RainbowButton>
+        <RainbowButton variant="outline" className="xl:text-2xl h-12">Sign In</RainbowButton>
       </div>
 
       <LogoLoop
