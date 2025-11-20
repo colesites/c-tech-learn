@@ -87,7 +87,7 @@ const cardVariants = cva(
       {
         theme: "classic",
         highlight: true,
-        className: "ring-2 ring-primary/20 border-primary/30 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden shadow-xl",
+        className: "ring-2 ring-primary/20 border-primary/30 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden shadow-xl z-10 scale-105",
       },
       {
         theme: "minimal",
@@ -208,8 +208,8 @@ export function PricingTableFour({
   const uniqueId = useId();
 
   function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
-    const monthly = parseFloat(monthlyPrice);
-    const yearly = parseFloat(yearlyPrice);
+    const monthly = parseFloat(monthlyPrice.replace(/,/g, ''));
+    const yearly = parseFloat(yearlyPrice.replace(/,/g, ''));
 
     if (
       monthlyPrice.toLowerCase() === "custom" ||
@@ -242,7 +242,7 @@ export function PricingTableFour({
   };
 
   return (
-    <section className={cn(sectionVariants({ size, theme }), className)}>
+    <div className={cn(sectionVariants({ size, theme }), className)}>
       {/* Classic theme background elements */}
       {theme === "classic" && (
         <>
@@ -316,7 +316,8 @@ export function PricingTableFour({
           {plans.map((plan, index) => (
             <motion.div
               key={plan.id}
-              className="relative group h-full"
+              data-plan-id={plan.id}
+              className={cn("relative group h-full", plan.highlight && "z-10")}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -454,6 +455,6 @@ export function PricingTableFour({
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
