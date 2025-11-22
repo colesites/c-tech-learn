@@ -95,7 +95,7 @@ const HowItWorksSection = () => {
 
         <div className="relative max-w-5xl mx-auto">
           {/* Center Line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-border/50 -translate-x-1/2 md:transform-none">
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border/50 -translate-x-1/2 md:transform-none">
             <div className="connector-line w-full bg-gradient-to-b from-primary/80 via-purple-500 to-blue-500 absolute top-0 left-0" />
           </div>
 
@@ -111,7 +111,7 @@ const HowItWorksSection = () => {
                   )}
                 >
                   {/* Icon Bubble */}
-                  <div className="relative z-10 flex-shrink-0">
+                  <div className="relative z-10 flex-shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                     <div
                       className={cn(
                         "w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-xl border-4 border-background",
@@ -121,7 +121,6 @@ const HowItWorksSection = () => {
                     >
                       <step.icon className="w-8 h-8 md:w-10 md:h-10" />
                     </div>
-                    {/* Mobile connecting line patch for first/last items if needed, handled by main line */}
                   </div>
 
                   {/* Content Card */}
@@ -140,7 +139,7 @@ const HowItWorksSection = () => {
                             : "md:justify-end justify-start"
                         )}
                       >
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-sm ring-1 ring-primary/20">
+                        <span className="flex items-center justify-center w-8 h-8 aspect-square rounded-full bg-primary/10 text-primary font-bold text-sm ring-1 ring-primary/20">
                           {index + 1}
                         </span>
                         <h3 className="text-xl md:text-2xl font-bold text-foreground">
@@ -153,7 +152,7 @@ const HowItWorksSection = () => {
                     </div>
                   </div>
 
-                  {/* Spacer for Desktop to center the icon */}
+                  {/* Spacer for Desktop to balance the layout since Icon is now absolute */}
                   <div className="hidden md:block flex-1" />
                 </div>
               );

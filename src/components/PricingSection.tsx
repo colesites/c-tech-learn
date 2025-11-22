@@ -51,6 +51,8 @@ export default function PricingSection() {
       const container = containerRef.current;
       if (!container) return;
 
+      const mm = gsap.matchMedia();
+
       // Create a timeline for a more choreographed entrance
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -76,20 +78,30 @@ export default function PricingSection() {
         "<" // Start at the same time as opacity
       );
 
-      // Add a subtle continuous floating animation for the Pro card
-      // We need to wait for the DOM to be fully rendered/hydrated
-      // so we use a slight delay or check
-      const proCard = container.querySelector('[data-plan-id="pro"]');
-      if (proCard) {
-        gsap.to(proCard, {
-          y: -10,
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: 1.5, // Wait for entrance animation
-        });
-      }
+      // Add a subtle continuous floating animation for the Pro card, ONLY on desktop
+      mm.add("(min-width: 768px)", () => {
+        const proCard = container.querySelector('[data-plan-id="pro"]');
+        if (proCard) {
+          gsap.to(proCard, {
+            y: -10,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 1.5, // Wait for entrance animation
+          });
+        }
+      });
+
+      // Explicitly clear any GSAP transforms on mobile to prevent sticky styles
+      mm.add("(max-width: 767px)", () => {
+        const proCard = container.querySelector('[data-plan-id="pro"]');
+        if (proCard) {
+          gsap.set(proCard, { clearProps: "y" });
+        }
+      });
+
+      return () => mm.revert();
     },
     { scope: containerRef }
   );

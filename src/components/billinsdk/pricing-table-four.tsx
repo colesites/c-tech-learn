@@ -38,7 +38,8 @@ const titleVariants = cva("font-bold mb-4 text-foreground", {
     },
     theme: {
       minimal: "",
-      classic: "bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+      classic:
+        "bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
     },
   },
   defaultVariants: {
@@ -47,23 +48,26 @@ const titleVariants = cva("font-bold mb-4 text-foreground", {
   },
 });
 
-const descriptionVariants = cva("text-muted-foreground max-w-3xl mx-auto mb-2", {
-  variants: {
-    size: {
-      small: "text-base lg:text-lg",
-      medium: "text-lg lg:text-xl",
-      large: "lg:text-xl",
+const descriptionVariants = cva(
+  "text-muted-foreground max-w-3xl mx-auto mb-2",
+  {
+    variants: {
+      size: {
+        small: "text-base lg:text-lg",
+        medium: "text-lg lg:text-xl",
+        large: "lg:text-xl",
+      },
+      theme: {
+        minimal: "",
+        classic: "",
+      },
     },
-    theme: {
-      minimal: "",
-      classic: "",
+    defaultVariants: {
+      size: "medium",
+      theme: "minimal",
     },
-  },
-  defaultVariants: {
-    size: "medium",
-    theme: "minimal",
-  },
-});
+  }
+);
 
 const cardVariants = cva(
   "relative h-full transition-all duration-300 rounded-lg border bg-card text-card-foreground",
@@ -87,7 +91,8 @@ const cardVariants = cva(
       {
         theme: "classic",
         highlight: true,
-        className: "ring-2 ring-primary/20 border-primary/30 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden shadow-xl z-10 scale-105",
+        className:
+          "ring-2 ring-primary/20 border-primary/30 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden shadow-xl z-10 scale-105",
       },
       {
         theme: "minimal",
@@ -109,7 +114,8 @@ const toggleVariants = cva(
     variants: {
       theme: {
         minimal: "bg-muted",
-        classic: "bg-muted/50 backdrop-blur-sm border border-border/50 shadow-lg",
+        classic:
+          "bg-muted/50 backdrop-blur-sm border border-border/50 shadow-lg",
       },
     },
     defaultVariants: {
@@ -127,7 +133,8 @@ const priceTextVariants = cva("font-medium", {
     },
     theme: {
       minimal: "",
-      classic: "font-extrabold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+      classic:
+        "font-extrabold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
     },
   },
   defaultVariants: {
@@ -141,8 +148,10 @@ const buttonVariants = cva(
   {
     variants: {
       theme: {
-        minimal: "shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay",
-        classic: "relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold py-3 px-6 rounded-lg hover:shadow-xl active:scale-95 border border-primary/20",
+        minimal:
+          "shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay",
+        classic:
+          "relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold py-3 px-6 rounded-lg hover:shadow-xl active:scale-95 border border-primary/20",
       },
     },
     defaultVariants: {
@@ -169,7 +178,8 @@ const featureIconVariants = cva("flex-none h-[1lh]", {
   },
 });
 
-export interface PricingTableFourProps extends VariantProps<typeof sectionVariants> {
+export interface PricingTableFourProps
+  extends VariantProps<typeof sectionVariants> {
   plans: Plan[];
   title?: string;
   description?: string;
@@ -207,9 +217,12 @@ export function PricingTableFour({
   const [isAnnually, setIsAnnually] = useState(false);
   const uniqueId = useId();
 
-  function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
-    const monthly = parseFloat(monthlyPrice.replace(/,/g, ''));
-    const yearly = parseFloat(yearlyPrice.replace(/,/g, ''));
+  function calculateDiscount(
+    monthlyPrice: string,
+    yearlyPrice: string
+  ): number {
+    const monthly = parseFloat(monthlyPrice.replace(/,/g, ""));
+    const yearly = parseFloat(yearlyPrice.replace(/,/g, ""));
 
     if (
       monthlyPrice.toLowerCase() === "custom" ||
@@ -227,10 +240,10 @@ export function PricingTableFour({
 
   const yearlyPriceDiscount = plans.length
     ? Math.max(
-      ...plans.map((plan) =>
-        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+        ...plans.map((plan) =>
+          calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+        )
       )
-    )
     : 0;
 
   const handlePlanSelect = (planId: string) => {
@@ -238,7 +251,11 @@ export function PricingTableFour({
   };
 
   const getPlanIcon = (planId: string) => {
-    return defaultIcons[planId as keyof typeof defaultIcons] || <Package className="w-5 h-5" />;
+    return (
+      defaultIcons[planId as keyof typeof defaultIcons] || (
+        <Package className="w-5 h-5" />
+      )
+    );
   };
 
   return (
@@ -256,13 +273,22 @@ export function PricingTableFour({
         {/* Header */}
         <div className="text-center mb-12">
           {subtitle && (
-            <p className="text-sm font-medium text-primary mb-3 tracking-wide uppercase">{subtitle}</p>
+            <p className="text-sm font-medium text-primary mb-3 tracking-wide uppercase">
+              {subtitle}
+            </p>
           )}
           <h2 className={cn(titleVariants({ size, theme }))}>{title}</h2>
-          <p className={cn(descriptionVariants({ size, theme }))}>{description}</p>
+          <p className={cn(descriptionVariants({ size, theme }))}>
+            {description}
+          </p>
 
           {showBillingToggle && (
-            <div className={cn("flex justify-center mt-8 mx-auto", toggleVariants({ theme }))}>
+            <div
+              className={cn(
+                "flex justify-center mt-8 mx-auto",
+                toggleVariants({ theme })
+              )}
+            >
               <RadioGroup
                 defaultValue="monthly"
                 className="h-full grid-cols-2"
@@ -306,13 +332,16 @@ export function PricingTableFour({
           )}
         </div>
 
-        <div className={cn(
-          "grid gap-6",
-          plans.length === 1 && "grid-cols-1 max-w-md mx-auto",
-          plans.length === 2 && "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto",
-          plans.length === 3 && "grid-cols-1 md:grid-cols-3",
-          plans.length >= 4 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        )}>
+        <div
+          className={cn(
+            "grid gap-6",
+            plans.length === 1 && "grid-cols-1 max-w-md mx-auto",
+            plans.length === 2 &&
+              "grid-cols-1 lg:grid-cols-2 max-w-4xl mx-auto",
+            plans.length === 3 && "grid-cols-1 lg:grid-cols-3",
+            plans.length >= 4 && "grid-cols-1 lg:grid-cols-3 xl:grid-cols-4"
+          )}
+        >
           {plans.map((plan, index) => (
             <motion.div
               key={plan.id}
@@ -323,17 +352,19 @@ export function PricingTableFour({
               transition={{
                 duration: 0.4,
                 delay: index * 0.1,
-                ease: "easeOut"
+                ease: "easeOut",
               }}
             >
               {/* Popular badge */}
               {plan.badge && (
-                <Badge className={cn(
-                  "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20",
-                  theme === "classic" 
-                    ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
-                    : "bg-primary text-primary-foreground"
-                )}>
+                <Badge
+                  className={cn(
+                    "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20",
+                    theme === "classic"
+                      ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
+                      : "bg-primary text-primary-foreground"
+                  )}
+                >
                   {plan.badge}
                 </Badge>
               )}
@@ -343,26 +374,40 @@ export function PricingTableFour({
                 <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
               )}
 
-              <div className={cn(cardVariants({ size, theme, highlight: plan.highlight }))}>
+              <div
+                className={cn(
+                  cardVariants({ size, theme, highlight: plan.highlight })
+                )}
+              >
                 <div className="flex flex-col h-full">
                   {/* Icon and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div className="flex-1">
-                      <h3 className={cn(
-                        "text-xl font-bold mb-1",
-                        theme === "classic" ? "text-lg" : ""
-                      )}>{plan.title}</h3>
-                      <p className={cn(
-                        "text-sm text-muted-foreground",
-                        theme === "classic" && "text-foreground/80"
-                      )}>{plan.description}</p>
+                      <h3
+                        className={cn(
+                          "text-xl font-bold mb-1",
+                          theme === "classic" ? "text-lg" : ""
+                        )}
+                      >
+                        {plan.title}
+                      </h3>
+                      <p
+                        className={cn(
+                          "text-sm text-muted-foreground",
+                          theme === "classic" && "text-foreground/80"
+                        )}
+                      >
+                        {plan.description}
+                      </p>
                     </div>
-                    <div className={cn(
-                      "w-10 h-10 flex items-center rounded-lg justify-center flex-shrink-0",
-                      theme === "classic" 
-                        ? "bg-primary/10 text-primary border border-primary/20"
-                        : "bg-muted text-foreground border border-border"
-                    )}>
+                    <div
+                      className={cn(
+                        "w-10 h-10 flex items-center rounded-lg justify-center flex-shrink-0",
+                        theme === "classic"
+                          ? "bg-primary/10 text-primary border border-primary/20"
+                          : "bg-muted text-foreground border border-border"
+                      )}
+                    >
                       {getPlanIcon(plan.id)}
                     </div>
                   </div>
@@ -379,31 +424,51 @@ export function PricingTableFour({
                       >
                         {isAnnually ? (
                           <div className="flex items-baseline gap-1">
-                            <span className={cn(priceTextVariants({ size, theme }))}>
-                              {parseFloat(plan.yearlyPrice) >= 0 && plan.yearlyPrice.toLowerCase() !== 'custom' && (
-                                <>{plan.currency}</>
-                              )}
+                            <span
+                              className={cn(priceTextVariants({ size, theme }))}
+                            >
+                              {parseFloat(plan.yearlyPrice) >= 0 &&
+                                plan.yearlyPrice.toLowerCase() !== "custom" && (
+                                  <>{plan.currency}</>
+                                )}
                               {plan.yearlyPrice}
                             </span>
-                            <span className="text-muted-foreground text-sm">/year</span>
-                            {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 && (
-                              <span className={cn(
-                                "text-xs ml-2",
-                                theme === "classic" ? "text-emerald-500 font-semibold" : "text-primary font-medium"
-                              )}>
-                                {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)}% off
+                            <span className="text-muted-foreground text-sm">
+                              /year
+                            </span>
+                            {calculateDiscount(
+                              plan.monthlyPrice,
+                              plan.yearlyPrice
+                            ) > 0 && (
+                              <span
+                                className={cn(
+                                  "text-xs ml-2",
+                                  theme === "classic"
+                                    ? "text-emerald-500 font-semibold"
+                                    : "text-primary font-medium"
+                                )}
+                              >
+                                {calculateDiscount(
+                                  plan.monthlyPrice,
+                                  plan.yearlyPrice
+                                )}
+                                % off
                               </span>
                             )}
                           </div>
                         ) : (
                           <div className="flex items-baseline gap-1">
-                            <span className={cn(priceTextVariants({ size, theme }))}>
-                              {parseFloat(plan.monthlyPrice) >= 0 && plan.monthlyPrice.toLowerCase() !== 'custom' && (
-                                <>{plan.currency}</>
-                              )}
+                            <span
+                              className={cn(priceTextVariants({ size, theme }))}
+                            >
+                              {parseFloat(plan.monthlyPrice) >= 0 &&
+                                plan.monthlyPrice.toLowerCase() !==
+                                  "custom" && <>{plan.currency}</>}
                               {plan.monthlyPrice}
                             </span>
-                            <span className="text-muted-foreground text-sm">/month</span>
+                            <span className="text-muted-foreground text-sm">
+                              /month
+                            </span>
                           </div>
                         )}
                       </motion.div>
@@ -416,7 +481,9 @@ export function PricingTableFour({
                       onClick={() => handlePlanSelect(plan.id)}
                       className={cn(
                         buttonVariants({ theme }),
-                        !plan.highlight && theme === "minimal" && "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
+                        !plan.highlight &&
+                          theme === "minimal" &&
+                          "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                       )}
                       variant={plan.highlight ? "default" : "secondary"}
                     >
@@ -431,18 +498,27 @@ export function PricingTableFour({
                   <div className="flex-1">
                     <ul className="space-y-3">
                       {plan.features.map((feature, featureIndex) => (
-                        <motion.li 
-                          key={featureIndex} 
+                        <motion.li
+                          key={featureIndex}
                           className="flex gap-3 items-start"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: featureIndex * 0.05,
+                          }}
                         >
-                          <Check className={cn(featureIconVariants({ size, theme }))} />
-                          <span className={cn(
-                            "text-sm",
-                            theme === "classic" ? "text-foreground/90" : "text-muted-foreground"
-                          )}>
+                          <Check
+                            className={cn(featureIconVariants({ size, theme }))}
+                          />
+                          <span
+                            className={cn(
+                              "text-sm",
+                              theme === "classic"
+                                ? "text-foreground/90"
+                                : "text-muted-foreground"
+                            )}
+                          >
                             {feature.name}
                           </span>
                         </motion.li>

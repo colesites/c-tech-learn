@@ -1,4 +1,4 @@
-import { getLatestCoursesQuery } from "@/sanity/lib/courses/getLatestCourses";
+import { getLatestCourses } from "@/sanity/lib/courses/getLatestCourses";
 import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 import { CoursesSectionSkeleton } from "@/components/loader/CoursesSectionSkeleton";
@@ -10,7 +10,7 @@ async function CoursesList() {
   "use cache";
   cacheLife("seconds");
 
-  const latestCourses = await getLatestCoursesQuery();
+  const latestCourses = await getLatestCourses();
 
   return <AnimatedCoursesGrid courses={latestCourses} />;
 }

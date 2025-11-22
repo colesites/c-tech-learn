@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import PricingSection from "@/components/PricingSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <CoursesSection />
       <HowItWorksSection />
       <PricingSection />
+      <TestimonialsSection />
     </MaxWidthWrapper>
   );
 }

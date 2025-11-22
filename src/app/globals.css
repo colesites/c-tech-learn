@@ -63,6 +63,15 @@
     background-position: 200%;
     }
   }
+  --animate-marquee: marquee var(--marquee-duration) linear infinite;
+  @keyframes marquee {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
 }
 
 :root {
