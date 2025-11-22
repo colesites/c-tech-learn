@@ -62,7 +62,7 @@ export const TestimonialsColumn = (props: {
               {props.testimonials.map(({ text, image, name, role }) => (
                 <div
                   className="testimonial-card w-full max-w-xs rounded-3xl border bg-card p-8 shadow-lg dark:bg-card/20 dark:shadow-foreground/10 transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:scale-[1.02]"
-                  key={name}
+                  key={`${name}-${index}`}
                 >
                   <div className="text-foreground/90 leading-relaxed">{text}</div>
                   <div className="mt-6 flex items-center gap-3">

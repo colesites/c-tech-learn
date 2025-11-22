@@ -53,33 +53,25 @@ export default function PricingSection() {
 
       const mm = gsap.matchMedia();
 
-      // Create a timeline for a more choreographed entrance
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Animate container opacity
-      tl.fromTo(container, { opacity: 0 }, { opacity: 1, duration: 0.5 });
-
-      // We can target specific elements if we add classes, but for now,
-      // let's enhance the overall container movement
-      tl.fromTo(
-        container,
-        { y: 60 },
-        {
-          y: 0,
-          duration: 1,
-          ease: "power4.out",
-        },
-        "<" // Start at the same time as opacity
-      );
-
-      // Add a subtle continuous floating animation for the Pro card, ONLY on desktop
+      // Desktop Animation (min-width: 768px)
+      // Includes: Slide up entrance, Fade in, Floating Pro card
       mm.add("(min-width: 768px)", () => {
+        // Entrance Timeline
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        tl.fromTo(
+          container,
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, duration: 1, ease: "power4.out" }
+        );
+
+        // Floating Animation for Pro Card
         const proCard = container.querySelector('[data-plan-id="pro"]');
         if (proCard) {
           gsap.to(proCard, {
@@ -88,17 +80,29 @@ export default function PricingSection() {
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: 1.5, // Wait for entrance animation
+            delay: 1.5,
           });
         }
       });
 
-      // Explicitly clear any GSAP transforms on mobile to prevent sticky styles
+      // Mobile Animation (max-width: 767px)
+      // Includes: ONLY Fade in
       mm.add("(max-width: 767px)", () => {
-        const proCard = container.querySelector('[data-plan-id="pro"]');
-        if (proCard) {
-          gsap.set(proCard, { clearProps: "y" });
-        }
+        // Simple Fade In
+        gsap.fromTo(
+          container,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: container,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
       });
 
       return () => mm.revert();
