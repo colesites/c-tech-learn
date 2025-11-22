@@ -343,191 +343,201 @@ export function PricingTableFour({
           )}
         >
           {plans.map((plan, index) => (
-            <motion.div
+            <div
               key={plan.id}
               data-plan-id={plan.id}
               className={cn("relative group h-full", plan.highlight && "z-10")}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
             >
-              {/* Popular badge */}
-              {plan.badge && (
-                <Badge
+              <motion.div
+                className="h-full"
+                initial={{ opacity: 0, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px", amount: 0.3 }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
+              >
+                {/* Popular badge */}
+                {plan.badge && (
+                  <Badge
+                    className={cn(
+                      "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20",
+                      theme === "classic"
+                        ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
+                        : "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    {plan.badge}
+                  </Badge>
+                )}
+
+                {/* Classic theme highlight effect */}
+                {theme === "classic" && plan.highlight && (
+                  <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+                )}
+
+                <div
                   className={cn(
-                    "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20",
-                    theme === "classic"
-                      ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
-                      : "bg-primary text-primary-foreground"
+                    cardVariants({ size, theme, highlight: plan.highlight })
                   )}
                 >
-                  {plan.badge}
-                </Badge>
-              )}
-
-              {/* Classic theme highlight effect */}
-              {theme === "classic" && plan.highlight && (
-                <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-              )}
-
-              <div
-                className={cn(
-                  cardVariants({ size, theme, highlight: plan.highlight })
-                )}
-              >
-                <div className="flex flex-col h-full">
-                  {/* Icon and Title */}
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-1">
-                      <h3
+                  <div className="flex flex-col h-full">
+                    {/* Icon and Title */}
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="flex-1">
+                        <h3
+                          className={cn(
+                            "text-xl font-bold mb-1",
+                            theme === "classic" ? "text-lg" : ""
+                          )}
+                        >
+                          {plan.title}
+                        </h3>
+                        <p
+                          className={cn(
+                            "text-sm text-muted-foreground",
+                            theme === "classic" && "text-foreground/80"
+                          )}
+                        >
+                          {plan.description}
+                        </p>
+                      </div>
+                      <div
                         className={cn(
-                          "text-xl font-bold mb-1",
-                          theme === "classic" ? "text-lg" : ""
+                          "w-10 h-10 flex items-center rounded-lg justify-center flex-shrink-0",
+                          theme === "classic"
+                            ? "bg-primary/10 text-primary border border-primary/20"
+                            : "bg-muted text-foreground border border-border"
                         )}
                       >
-                        {plan.title}
-                      </h3>
-                      <p
-                        className={cn(
-                          "text-sm text-muted-foreground",
-                          theme === "classic" && "text-foreground/80"
-                        )}
-                      >
-                        {plan.description}
-                      </p>
+                        {getPlanIcon(plan.id)}
+                      </div>
                     </div>
-                    <div
-                      className={cn(
-                        "w-10 h-10 flex items-center rounded-lg justify-center flex-shrink-0",
-                        theme === "classic"
-                          ? "bg-primary/10 text-primary border border-primary/20"
-                          : "bg-muted text-foreground border border-border"
-                      )}
-                    >
-                      {getPlanIcon(plan.id)}
-                    </div>
-                  </div>
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={isAnnually ? "year" : "month"}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {isAnnually ? (
-                          <div className="flex items-baseline gap-1">
-                            <span
-                              className={cn(priceTextVariants({ size, theme }))}
-                            >
-                              {parseFloat(plan.yearlyPrice) >= 0 &&
-                                plan.yearlyPrice.toLowerCase() !== "custom" && (
-                                  <>{plan.currency}</>
-                                )}
-                              {plan.yearlyPrice}
-                            </span>
-                            <span className="text-muted-foreground text-sm">
-                              /year
-                            </span>
-                            {calculateDiscount(
-                              plan.monthlyPrice,
-                              plan.yearlyPrice
-                            ) > 0 && (
+                    {/* Price */}
+                    <div className="mb-6">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={isAnnually ? "year" : "month"}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {isAnnually ? (
+                            <div className="flex items-baseline gap-1">
                               <span
                                 className={cn(
-                                  "text-xs ml-2",
-                                  theme === "classic"
-                                    ? "text-emerald-500 font-semibold"
-                                    : "text-primary font-medium"
+                                  priceTextVariants({ size, theme })
                                 )}
                               >
-                                {calculateDiscount(
-                                  plan.monthlyPrice,
-                                  plan.yearlyPrice
-                                )}
-                                % off
+                                {parseFloat(plan.yearlyPrice) >= 0 &&
+                                  plan.yearlyPrice.toLowerCase() !==
+                                    "custom" && <>{plan.currency}</>}
+                                {plan.yearlyPrice}
                               </span>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex items-baseline gap-1">
-                            <span
-                              className={cn(priceTextVariants({ size, theme }))}
-                            >
-                              {parseFloat(plan.monthlyPrice) >= 0 &&
-                                plan.monthlyPrice.toLowerCase() !==
-                                  "custom" && <>{plan.currency}</>}
-                              {plan.monthlyPrice}
-                            </span>
-                            <span className="text-muted-foreground text-sm">
-                              /month
-                            </span>
-                          </div>
+                              <span className="text-muted-foreground text-sm">
+                                /year
+                              </span>
+                              {calculateDiscount(
+                                plan.monthlyPrice,
+                                plan.yearlyPrice
+                              ) > 0 && (
+                                <span
+                                  className={cn(
+                                    "text-xs ml-2",
+                                    theme === "classic"
+                                      ? "text-emerald-500 font-semibold"
+                                      : "text-primary font-medium"
+                                  )}
+                                >
+                                  {calculateDiscount(
+                                    plan.monthlyPrice,
+                                    plan.yearlyPrice
+                                  )}
+                                  % off
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="flex items-baseline gap-1">
+                              <span
+                                className={cn(
+                                  priceTextVariants({ size, theme })
+                                )}
+                              >
+                                {parseFloat(plan.monthlyPrice) >= 0 &&
+                                  plan.monthlyPrice.toLowerCase() !==
+                                    "custom" && <>{plan.currency}</>}
+                                {plan.monthlyPrice}
+                              </span>
+                              <span className="text-muted-foreground text-sm">
+                                /month
+                              </span>
+                            </div>
+                          )}
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="mb-6">
+                      <Button
+                        onClick={() => handlePlanSelect(plan.id)}
+                        className={cn(
+                          buttonVariants({ theme }),
+                          !plan.highlight &&
+                            theme === "minimal" &&
+                            "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                         )}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
+                        variant={plan.highlight ? "default" : "secondary"}
+                      >
+                        {plan.buttonText}
+                        {theme === "classic" && plan.highlight && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+                        )}
+                      </Button>
+                    </div>
 
-                  {/* CTA Button */}
-                  <div className="mb-6">
-                    <Button
-                      onClick={() => handlePlanSelect(plan.id)}
-                      className={cn(
-                        buttonVariants({ theme }),
-                        !plan.highlight &&
-                          theme === "minimal" &&
-                          "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
-                      )}
-                      variant={plan.highlight ? "default" : "secondary"}
-                    >
-                      {plan.buttonText}
-                      {theme === "classic" && plan.highlight && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
-                      )}
-                    </Button>
-                  </div>
-
-                  {/* Features */}
-                  <div className="flex-1">
-                    <ul className="space-y-3">
-                      {plan.features.map((feature, featureIndex) => (
-                        <motion.li
-                          key={featureIndex}
-                          className="flex gap-3 items-start"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: featureIndex * 0.05,
-                          }}
-                        >
-                          <Check
-                            className={cn(featureIconVariants({ size, theme }))}
-                          />
-                          <span
-                            className={cn(
-                              "text-sm",
-                              theme === "classic"
-                                ? "text-foreground/90"
-                                : "text-muted-foreground"
-                            )}
+                    {/* Features */}
+                    <div className="flex-1">
+                      <ul className="space-y-3">
+                        {plan.features.map((feature, featureIndex) => (
+                          <motion.li
+                            key={featureIndex}
+                            className="flex gap-3 items-start"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: featureIndex * 0.05,
+                            }}
                           >
-                            {feature.name}
-                          </span>
-                        </motion.li>
-                      ))}
-                    </ul>
+                            <Check
+                              className={cn(
+                                featureIconVariants({ size, theme })
+                              )}
+                            />
+                            <span
+                              className={cn(
+                                "text-sm",
+                                theme === "classic"
+                                  ? "text-foreground/90"
+                                  : "text-muted-foreground"
+                              )}
+                            >
+                              {feature.name}
+                            </span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           ))}
         </div>
       </div>
