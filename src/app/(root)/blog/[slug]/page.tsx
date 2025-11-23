@@ -52,8 +52,7 @@ async function BlogContent({ slug }: { slug: string }) {
                 priority
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-              <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 via-60% to-transparent" />
             </>
           )}
         </div>
@@ -69,15 +68,15 @@ async function BlogContent({ slug }: { slug: string }) {
               </span>
             )}
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight shadow-black/10 drop-shadow-sm">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight tracking-tight drop-shadow-sm">
               {blog.title}
             </h1>
 
             {/* Author & Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-white/90">
+            <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
               {blog.author && (
                 <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/20 bg-white/10">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-background bg-muted">
                     {blog.author.image?.asset ? (
                       <Image
                         src={urlFor(blog.author.image).url()}
@@ -92,7 +91,7 @@ async function BlogContent({ slug }: { slug: string }) {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-semibold text-lg">
+                    <span className="font-semibold text-lg text-foreground">
                       {blog.author.name}
                     </span>
                     <span className="text-xs opacity-80 uppercase tracking-wider">
@@ -102,10 +101,10 @@ async function BlogContent({ slug }: { slug: string }) {
                 </div>
               )}
 
-              <div className="h-8 w-px bg-white/20 hidden sm:block" />
+              <div className="h-8 w-px bg-border hidden sm:block" />
 
               <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-primary-foreground" />
+                <Calendar className="w-5 h-5 text-primary" />
                 <span className="font-medium">
                   {format(new Date(blog._createdAt), "MMMM d, yyyy")}
                 </span>
@@ -113,8 +112,8 @@ async function BlogContent({ slug }: { slug: string }) {
 
               {blog.readMinutes && (
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
-                  <Clock className="w-5 h-5 text-primary-foreground" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                  <Clock className="w-5 h-5 text-primary" />
                   <span className="font-medium">
                     {blog.readMinutes} min read
                   </span>

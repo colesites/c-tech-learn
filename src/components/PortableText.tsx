@@ -45,7 +45,7 @@ const components: PortableTextComponents = {
         <Link
           href={value.href}
           rel={rel}
-          className="text-primary hover:text-accent underline decoration-2 underline-offset-2 transition-colors"
+          className="text-primary hover:text-accent underline decoration-2 underline-offset-2 transition-colors break-words"
         >
           {children}
         </Link>
@@ -69,8 +69,8 @@ const components: PortableTextComponents = {
     ),
   },
   listItem: {
-    bullet: ({ children }) => <li>{children}</li>,
-    number: ({ children }) => <li>{children}</li>,
+    bullet: ({ children }) => <li className="break-words">{children}</li>,
+    number: ({ children }) => <li className="break-words">{children}</li>,
   },
   types: {
     image: ({ value }) => {
@@ -101,7 +101,7 @@ const components: PortableTextComponents = {
 
 export default function PortableText({ value }: { value: any }) {
   return (
-    <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
+    <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground break-words">
       <PortableTextComponent value={value} components={components} />
     </div>
   );
