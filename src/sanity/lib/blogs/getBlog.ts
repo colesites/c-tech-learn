@@ -80,6 +80,12 @@ export async function getBlogBySlug(slug: string): Promise<Blog | null> {
   return client.fetch<Blog | null>(query, { slug });
 }
 
+export async function getAllBlogSlugs(): Promise<{ slug: { current: string } }[]> {
+  const query = groq`*[_type == "blog"]{ "slug": slug }`;
+  return client.fetch(query);
+}
+
+
 // Lightweight list for cards (if you need it)
 export async function getBlogCards(): Promise<
   Array<

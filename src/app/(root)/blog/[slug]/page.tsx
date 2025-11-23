@@ -17,6 +17,15 @@ interface Props {
   }>;
 }
 
+import { getAllBlogSlugs } from "@/sanity/lib/blogs/getBlog";
+
+export async function generateStaticParams() {
+  const blogs = await getAllBlogSlugs();
+  return blogs.map((blog) => ({
+    slug: blog.slug.current,
+  }));
+}
+
 // Separate component for data fetching
 async function BlogContent({ slug }: { slug: string }) {
   "use cache";
