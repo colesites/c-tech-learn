@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { ArrowLeft, Clock, Calendar, User, ArrowRight } from "lucide-react";
+import { Clock, Calendar, User, ArrowRight } from "lucide-react";
 import { getBlogBySlug } from "@/sanity/lib/blogs/getBlog";
 import { urlFor } from "@/sanity/lib/image";
 import PortableText from "@/components/PortableText";
 import { cacheLife } from "next/cache";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import { BackButton } from "@/components/BackButton";
 
 interface Props {
   params: Promise<{
@@ -14,11 +17,11 @@ interface Props {
   }>;
 }
 
-export default async function BlogPage({ params }: Props) {
+// Separate component for data fetching
+async function BlogContent({ slug }: { slug: string }) {
   "use cache";
   cacheLife("days");
 
-  const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
   if (!blog) {
@@ -48,13 +51,7 @@ export default async function BlogPage({ params }: Props) {
 
         {/* Hero Content */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16">
-          <Link
-            href="/#blog"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="font-medium">Back to Blogs</span>
-          </Link>
+          <BackButton />
 
           <div className="max-w-4xl">
             {blog.category && (
@@ -149,5 +146,21 @@ export default async function BlogPage({ params }: Props) {
         </div>
       </div>
     </article>
+  );
+}
+
+export default async function BlogPage({ params }: Props) {
+  const { slug } = await params;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen w-full items-center justify-center bg-background">
+          <Spinner className="size-10 text-primary" />
+        </div>
+      }
+    >
+      <BlogContent slug={slug} />
+    </Suspense>
   );
 }
