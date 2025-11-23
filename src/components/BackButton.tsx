@@ -9,11 +9,10 @@ export function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group z-20 relative"
+      className="inline-flex items-center gap-2 text-foreground dark:text-muted-foreground transition-colors group z-20 relative cursor-pointer"
     >
       <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
       <span className="font-medium">Back</span>
     </button>
   );
 }
-
