@@ -40,7 +40,7 @@ async function BlogContent({ slug }: { slug: string }) {
   return (
     <article className="min-h-screen bg-background pb-24">
       {/* Hero Section */}
-      <div className="relative w-full h-[60vh] min-h-[500px] flex items-end">
+      <div className="relative w-full h-[60vh] min-h-[500px] flex flex-col">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           {blog.featuredImage?.asset && (
@@ -57,10 +57,13 @@ async function BlogContent({ slug }: { slug: string }) {
           )}
         </div>
 
-        {/* Hero Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16">
+        {/* Back Button Container - Top positioned to clear header */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-28 md:pt-32 flex-shrink-0">
           <BackButton />
+        </div>
 
+        {/* Hero Content - Bottom aligned */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16 mt-auto">
           <div className="max-w-4xl">
             {blog.category && (
               <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary text-primary-foreground text-sm font-semibold tracking-wide shadow-lg shadow-primary/20">
