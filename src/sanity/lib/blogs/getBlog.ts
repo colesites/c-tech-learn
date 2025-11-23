@@ -81,7 +81,7 @@ export async function getBlogBySlug(slug: string): Promise<Blog | null> {
 }
 
 export async function getAllBlogSlugs(): Promise<{ slug: { current: string } }[]> {
-  const query = groq`*[_type == "blog"]{ "slug": slug }`;
+  const query = groq`*[_type == "blog"]{ "slug": slug{current} }`;
   return client.fetch(query);
 }
 
