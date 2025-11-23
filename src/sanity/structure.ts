@@ -2,42 +2,51 @@ import type { StructureResolver } from "sanity/structure";
 import {
   BookIcon,
   UserIcon,
-  UsersIcon,
   DocumentIcon,
   DocumentsIcon,
+  FolderIcon,
 } from "@sanity/icons";
-import { GiPathDistance } from "react-icons/gi";
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
+// Structure builder
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
+      // Courses (collection)
       S.listItem()
         .title("Courses")
         .icon(BookIcon)
-        .child(S.document().schemaType("courses").documentId("courses")),
+        .child(S.documentTypeList("courses").title("Courses")),
 
       S.divider(),
 
+      // Lessons (collection)
       S.listItem()
         .title("Lessons")
         .icon(DocumentIcon)
-        .child(S.document().schemaType("lesson").documentId("lesson")),
+        .child(S.documentTypeList("lesson").title("Lessons")),
 
       S.divider(),
 
+      // Authors (collection)
       S.listItem()
-        .title("Author")
+        .title("Authors")
         .icon(UserIcon)
-        .child(S.document().schemaType("author").documentId("author")),
+        .child(S.documentTypeList("author").title("Authors")),
 
       S.divider(),
 
+      // Blog posts (collection)
       S.listItem()
         .title("Blog")
         .icon(BookIcon)
-        .child(S.document().schemaType("blog").documentId("blog")),
+        .child(S.documentTypeList("blog").title("Blog")),
 
       S.divider(),
+
+      // Categories (collection)
+      S.listItem()
+        .title("Categories")
+        .icon(FolderIcon)
+        .child(S.documentTypeList("category").title("Categories")),
     ]);

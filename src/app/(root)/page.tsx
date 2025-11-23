@@ -1,4 +1,5 @@
 import AboutSection from "@/components/AboutSection";
+import BlogSection from "@/components/BlogSection";
 import CoursesSection from "@/components/CoursesSection";
 import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
@@ -15,6 +16,7 @@ export default function Home() {
       <HowItWorksSection />
       <PricingSection />
       <TestimonialsSection />
+      <BlogSection />
     </MaxWidthWrapper>
   );
 }
