@@ -1,7 +1,9 @@
 import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
 import CommunitySection from "@/components/CommunitySection";
+import ContactSection from "@/components/ContactSection";
 import CoursesSection from "@/components/CoursesSection";
+import FAQSection from "@/components/FAQSection";
 import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
@@ -19,6 +21,8 @@ export default function Home() {
       <TestimonialsSection />
       <BlogSection />
       <CommunitySection />
+      <FAQSection />
+      <ContactSection />
     </MaxWidthWrapper>
   );
 }
