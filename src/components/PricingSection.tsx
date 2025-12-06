@@ -179,7 +179,7 @@ export default function PricingSection() {
   ];
 
   return (
-    <div ref={containerRef} className="w-full">
+    <div ref={containerRef} className="w-full" id="pricing">
       <PricingTableFour
         plans={plans}
         title="Start Your Tech Journey Today"

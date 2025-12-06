@@ -123,7 +123,11 @@ const FAQSection = () => {
   };
 
   return (
-    <div className="py-24 md:py-32 relative overflow-hidden" ref={containerRef}>
+    <div
+      className="py-24 md:py-32 relative overflow-hidden"
+      ref={containerRef}
+      id="faq"
+    >
       {/* Background Pattern */}
       <div
         className="absolute inset-0 -z-10 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"

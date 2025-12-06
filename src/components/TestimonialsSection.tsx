@@ -63,7 +63,11 @@ export default function TestimonialsSection() {
   );
 
   return (
-    <div ref={containerRef} className="relative py-20 md:py-24">
+    <div
+      ref={containerRef}
+      className="relative py-20 md:py-24"
+      id="testimonials"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div
           ref={headerRef}

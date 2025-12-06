@@ -7,6 +7,11 @@ import coursesType from "./coursesType";
 import lessonType from "./lessonType";
 import category from "./category";
 
+import { privacyPolicyType } from "./privacyPolicyType";
+import { termsOfServiceType } from "./termsOfServiceType";
+import { privacySectionType } from "./privacySectionType";
+import { termsSectionType } from "./termsSectionType";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContentType,
@@ -15,5 +20,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     coursesType,
     lessonType,
     category,
+    privacyPolicyType,
+    termsOfServiceType,
+    privacySectionType,
+    termsSectionType,
   ],
 };

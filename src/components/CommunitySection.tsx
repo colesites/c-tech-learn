@@ -3,11 +3,8 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Link from "next/link";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 import { communityLinks } from "@/data";
+import CommunityCard from "./CommunityCard";
 
 const CommunitySection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +51,7 @@ const CommunitySection = () => {
   );
 
   return (
-    <div className="py-24" ref={containerRef}>
+    <div className="py-24" ref={containerRef} id="community">
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-bold mb-4">
           Join our community
@@ -66,76 +63,14 @@ const CommunitySection = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {communityLinks.map((link, index) => (
-          <div
+          <CommunityCard
             key={link.id}
+            link={link}
+            index={index}
             ref={(el) => {
               cardsRef.current[index] = el;
             }}
-            className={cn(
-              "relative group rounded-2xl p-6 overflow-hidden border dark:border-white/10 border-primary/10", // Reduced padding to p-6
-              "dark:hover:border-white/20 hover:border-primary/20 transition-colors duration-300",
-              "aspect-[4/3] flex flex-col justify-between", // Landscape aspect ratio
-              "dark:bg-black bg-white", // Black background
-              link.shadow
-            )}
-          >
-            {/* Grid Pattern Overlay darkmode */}
-            <div
-              className="hidden dark:block absolute inset-0 opacity-[0.1]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "20px 20px",
-              }}
-            />
-
-            {/* Grid Pattern Overlay lightmode */}
-            <div
-              className="block dark:hidden absolute inset-0 opacity-[0.1]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, black 1px, transparent 0)",
-                backgroundSize: "20px 20px",
-              }}
-            />
-
-            {/* Top Right Glow - Brand Color */}
-            <div
-              className={cn(
-                "absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-40",
-                link.glow
-              )}
-            />
-
-            <div className="relative z-10">
-              {/* Icon with Black Circle Background - Smaller size */}
-              <div className="mb-4 inline-flex items-center justify-center p-2.5 rounded-full dark:bg-black bg-white border border-primary/10 dark:border-white/10 size-14">
-                <Image
-                  src={link.icon}
-                  alt={link.title}
-                  width={20}
-                  height={20}
-                  className="size-10"
-                />
-              </div>
-
-              {/* Smaller Text */}
-              <h3 className="text-xl font-bold mb-2 text-black dark:text-white">{link.title}</h3>
-              <p className="text-black/80 dark:text-gray-400 text-base leading-relaxed">
-                {link.description}
-              </p>
-            </div>
-
-            <div className="relative z-10 mt-auto pt-4">
-              <Link
-                href={link.href}
-                className="inline-flex items-center text-sm font-medium text-black dark:text-white hover:text-black/70 dark:hover:text-gray-200 transition-colors"
-              >
-                {link.action}
-                <ArrowRight className="w-3 h-3 ml-2 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
+          />
         ))}
       </div>
     </div>

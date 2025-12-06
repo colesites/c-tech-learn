@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Logo from "./Logo";
 import { NavMenu } from "./NavMenu";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -26,25 +26,7 @@ const Header = () => {
       <MaxWidthWrapper>
         <nav className="py-3 md:py-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/logo-blue.svg"
-                alt="Learn logo"
-                width={26}
-                height={26}
-                preload={true}
-                className="dark:hidden md:size-8"
-              />
-              <Image
-                src="/logo-white.svg"
-                alt="Learn logo"
-                width={26}
-                height={26}
-                preload={true}
-                className="hidden dark:block md:size-8"
-              />
-              <p className="text-2xl font-medium md:font-bold">Learn</p>
-            </Link>
+            <Logo />
             <NavMenu />
           </div>
           <div className="flex items-center gap-2">
