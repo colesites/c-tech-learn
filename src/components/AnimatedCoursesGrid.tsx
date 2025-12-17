@@ -60,7 +60,7 @@ export function AnimatedCoursesGrid({ courses }: AnimatedCoursesGridProps) {
           key={course._id}
           className="course-card relative min-h-[14rem] list-none opacity-0 will-change-transform"
         >
-          <Link href={`/courses/${course.slug}`} className="block h-full group">
+          <Link href={`/course/${course.slug}`} className="block h-full group">
             <div className="relative h-full overflow-hidden rounded-[1.25rem] border-[0.75px] border-border p-2 dark:border-zinc-800 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
               <GlowingEffect
                 blur={0}
@@ -111,4 +111,3 @@ export function AnimatedCoursesGrid({ courses }: AnimatedCoursesGridProps) {
     </ul>
   );
 }
-

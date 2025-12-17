@@ -1,50 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { AuthInput } from "./auth-input";
-import { OAuthComp } from "./oauth-comp";
+import { AuthInput } from "@/components/auth/auth-input";
+import { OAuthComp } from "@/components/auth/oauth-comp";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signUpSchema } from "@/schemas";
+import { signInSchema } from "@/schemas";
+import { Spinner } from "@/components/ui/spinner";
 
-type SignUpValues = z.infer<typeof signUpSchema>;
+type SignInValues = z.infer<typeof signInSchema>;
 
-export function SignUpForm() {
+export function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [googlePending, startGoogleTransition] = useTransition();
+  const [githubPending, startGithubTransition] = useTransition();
   const router = useRouter();
 
-  const form = useForm<SignUpValues>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<SignInValues>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: SignUpValues) {
+  async function onSubmit(values: SignInValues) {
     setIsLoading(true);
-    await authClient.signUp.email(
+    await authClient.signIn.email(
       {
         email: values.email,
         password: values.password,
-        name: values.name,
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: () => {
-          toast.success("Account created successfully!");
+          toast.success("Signed in successfully!");
           router.push("/");
           setIsLoading(false);
         },
@@ -57,33 +58,62 @@ export function SignUpForm() {
   }
 
   const handleOAuthSignIn = async (provider: "google" | "github") => {
-    await authClient.signIn.social({
-      provider,
-      callbackURL: "/",
-    });
+    if (provider === "google") {
+      startGoogleTransition(async () => {
+        await authClient.signIn.social({
+          provider,
+          callbackURL: "/all-courses",
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("Signed in successfully!");
+            },
+            onError: () => {
+              toast.error("Internal server error");
+            },
+          },
+        });
+      });
+    } else if (provider === "github") {
+      startGithubTransition(async () => {
+        await authClient.signIn.social({
+          provider,
+          callbackURL: "/all-courses",
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("Signed in successfully!");
+            },
+            onError: () => {
+              toast.error("Internal server error");
+            },
+          },
+        });
+      });
+    }
   };
 
   return (
     <div className="w-full max-w-md space-y-8">
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Create Account
+          Welcome Back
         </h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Join us and start your learning journey today.
+          Sign in to continue your progress.
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <OAuthComp
           provider="google"
-          icon={<FcGoogle />}
+          icon={googlePending ? <Spinner className="size-5" /> : <FcGoogle />}
           onClick={() => handleOAuthSignIn("google")}
+          disabled={googlePending}
         />
         <OAuthComp
           provider="github"
-          icon={<FaGithub />}
+          icon={githubPending ? <Spinner className="size-5" /> : <FaGithub />}
           onClick={() => handleOAuthSignIn("github")}
+          disabled={githubPending}
         />
       </div>
 
@@ -100,25 +130,29 @@ export function SignUpForm() {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <AuthInput
-          label="Full Name"
-          placeholder="John Doe"
-          {...form.register("name")}
-          error={form.formState.errors.name?.message}
-        />
-        <AuthInput
           label="Email"
           type="email"
           placeholder="john@example.com"
           {...form.register("email")}
           error={form.formState.errors.email?.message}
         />
-        <AuthInput
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-          {...form.register("password")}
-          error={form.formState.errors.password?.message}
-        />
+        <div className="space-y-1">
+          <AuthInput
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            {...form.register("password")}
+            error={form.formState.errors.password?.message}
+          />
+          <div className="flex justify-end">
+            <Link
+              href="/forgot-password"
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >
+              Forgot password?
+            </Link>
+          </div>
+        </div>
 
         <Button
           type="submit"
@@ -128,18 +162,18 @@ export function SignUpForm() {
           {isLoading ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (
-            "Create Account"
+            "Sign In"
           )}
         </Button>
       </form>
 
       <p className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        Don't have an account?{" "}
         <Link
-          href="/sign-in"
+          href="/sign-up"
           className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors"
         >
-          Sign in
+          Sign up
         </Link>
       </p>
     </div>

@@ -11,7 +11,10 @@ const interSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "C Tech Learn",
+  title: {
+    default: "C Tech Learn",
+    template: "%s | C Tech Learn",
+  },
   description: "",
 };
 
@@ -35,7 +38,7 @@ export default function AppLayout({
             disableTransitionOnChange
           >
             <main>{children}</main>
-            <Toaster />
+            <Toaster richColors />
           </ThemeProvider>
         </ConsentManager>
       </body>

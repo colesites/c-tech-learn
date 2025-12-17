@@ -1,3 +1,5 @@
+"use client";
+
 import Logo from "./Logo";
 import { NavMenu } from "./NavMenu";
 import Link from "next/link";
@@ -19,8 +21,13 @@ import {
 } from "@/components/ui/accordion";
 import { Menu } from "lucide-react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
+import UserDropdownMenu from "./UserDropdownMenu";
+import { authClient } from "@/lib/auth-client";
+import { Spinner } from "./ui/spinner";
 
 const Header = () => {
+  const { data: session, isPending, error, refetch } = authClient.useSession();
+
   return (
     <header>
       <MaxWidthWrapper>
@@ -30,15 +37,25 @@ const Header = () => {
             <NavMenu />
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-2">
-              <Link href="/sign-in">
-                <Button className="xl:text-lg">Sign In</Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button className="xl:text-lg">Get Started</Button>
-              </Link>
-            </div>
+            {isPending ? null : !error && !session ? (
+              <div className="hidden md:flex items-center gap-2">
+                <Link href="/sign-in">
+                  <Button className="xl:text-lg">Sign In</Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button className="xl:text-lg">Get Started</Button>
+                </Link>
+              </div>
+            ) : null}
             <ThemeToggle />
+
+            {isPending ? (
+              <Spinner className="size-6" />
+            ) : session ? (
+              <UserDropdownMenu />
+            ) : null}
+
+            {/* Mobile Menu */}
             <div className="md:hidden flex items-center justify-center">
               <Sheet>
                 <SheetTrigger>

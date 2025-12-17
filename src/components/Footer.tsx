@@ -29,25 +29,25 @@ const Footer = () => {
   ];
 
   const productLinks = [
-    { label: "Courses", href: "#" },
-    { label: "How it Works", href: "#" },
-    { label: "Pricing", href: "#" },
-    { label: "Testimonials", href: "#" },
-    { label: "Community", href: "#" },
+    { label: "Courses", href: "#courses" },
+    { label: "How it Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Community", href: "#community" },
   ];
 
   const companyLinks = [
     { label: "About", href: "#about" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
-    { label: "Terms", href: "#" },
-    { label: "Privacy", href: "#" },
+    { label: "Terms", href: "/terms-of-service" },
+    { label: "Privacy", href: "/privacy" },
   ];
 
   const resourceLinks = [
-    { label: "Blog", href: "#" },
-    { label: "Learning Path", href: "#" },
-    { label: "Quiz", href: "#" },
+    { label: "Blog", href: "/blog" },
+    { label: "Learning Path", href: "/learning-paths" },
+    { label: "Quiz", href: "/quiz" },
   ];
 
   return (

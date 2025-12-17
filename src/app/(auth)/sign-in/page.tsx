@@ -1,11 +1,11 @@
-import { SignInForm } from "@/components/auth/sign-in-form";
+import { SignInForm } from "./_components/SignInForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign In - C Tech Learn",
+  title: "Sign In",
   description: "Sign in to your account.",
 };
 
-export default function SignInPage() {
+export default async function SignInPage() {
   return <SignInForm />;
 }

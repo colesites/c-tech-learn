@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { number } from "zod";
 
 export default defineType({
   name: "courses",
@@ -62,6 +63,12 @@ export default defineType({
             defineField({
               name: "title",
               title: "Module Title",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "number",
+              title: "Module Number",
               type: "string",
               validation: (Rule) => Rule.required(),
             }),

@@ -15,7 +15,7 @@ const BlogSection = async () => {
   const displayedBlogs = blogs.slice(0, 3);
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden">
+    <div className="py-24 bg-background relative overflow-hidden" id="blog">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
@@ -39,7 +39,7 @@ const BlogSection = async () => {
           </Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

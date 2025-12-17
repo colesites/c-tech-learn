@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface OAuthCompProps extends React.ComponentProps<typeof Button> {
-  provider: "google" | "github" | "apple";
+  provider: "google" | "github";
   icon: React.ReactNode;
   label?: string;
 }

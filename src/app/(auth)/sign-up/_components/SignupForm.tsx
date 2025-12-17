@@ -6,43 +6,45 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { AuthInput } from "./auth-input";
-import { OAuthComp } from "./oauth-comp";
+import { AuthInput } from "@/components/auth/auth-input";
+import { OAuthComp } from "@/components/auth/oauth-comp";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signInSchema } from "@/schemas";
+import { signUpSchema } from "@/schemas";
 
-type SignInValues = z.infer<typeof signInSchema>;
+type SignUpValues = z.infer<typeof signUpSchema>;
 
-export function SignInForm() {
+export function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<SignInValues>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: SignInValues) {
+  async function onSubmit(values: SignUpValues) {
     setIsLoading(true);
-    await authClient.signIn.email(
+    await authClient.signUp.email(
       {
         email: values.email,
         password: values.password,
+        name: values.name,
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: () => {
-          toast.success("Signed in successfully!");
+          toast.success("Account created successfully!");
           router.push("/");
           setIsLoading(false);
         },
@@ -65,10 +67,10 @@ export function SignInForm() {
     <div className="w-full max-w-md space-y-8">
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Welcome Back
+          Create Account
         </h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Sign in to continue your progress.
+          Join us and start your learning journey today.
         </p>
       </div>
 
@@ -98,29 +100,25 @@ export function SignInForm() {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <AuthInput
+          label="Full Name"
+          placeholder="John Doe"
+          {...form.register("name")}
+          error={form.formState.errors.name?.message}
+        />
+        <AuthInput
           label="Email"
           type="email"
           placeholder="john@example.com"
           {...form.register("email")}
           error={form.formState.errors.email?.message}
         />
-        <div className="space-y-1">
-          <AuthInput
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            {...form.register("password")}
-            error={form.formState.errors.password?.message}
-          />
-          <div className="flex justify-end">
-            <Link
-              href="/forgot-password"
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-            >
-              Forgot password?
-            </Link>
-          </div>
-        </div>
+        <AuthInput
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          {...form.register("password")}
+          error={form.formState.errors.password?.message}
+        />
 
         <Button
           type="submit"
@@ -130,18 +128,18 @@ export function SignInForm() {
           {isLoading ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (
-            "Sign In"
+            "Create Account"
           )}
         </Button>
       </form>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <Link
-          href="/sign-up"
+          href="/sign-in"
           className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors"
         >
-          Sign up
+          Sign in
         </Link>
       </p>
     </div>
