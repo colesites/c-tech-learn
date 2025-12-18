@@ -6,162 +6,30 @@ import { Clock, Calendar, User, ArrowRight } from "lucide-react";
 import { getBlogBySlug } from "@/sanity/lib/blogs/getBlog";
 import { urlFor } from "@/sanity/lib/image";
 import PortableText from "@/components/PortableText";
-import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { BackButton } from "@/components/BackButton";
 
-interface Props {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+// import { getAllBlogSlugs } from "@/sanity/lib/blogs/getBlog";
 
-import { getAllBlogSlugs } from "@/sanity/lib/blogs/getBlog";
+// export async function generateStaticParams() {
+//   const blogs = await getAllBlogSlugs();
+//   return blogs.map((blog) => ({
+//     slug: blog.slug.current,
+//   }));
+// }
 
-export async function generateStaticParams() {
-  const blogs = await getAllBlogSlugs();
-  return blogs.map((blog) => ({
-    slug: blog.slug.current,
-  }));
-}
-
-// Separate component for data fetching
-async function BlogContent({ slug }: { slug: string }) {
-  "use cache";
-  cacheLife("days");
-
+export default async function BlogPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     notFound();
   }
-
-  return (
-    <article className="min-h-screen bg-background pb-24">
-      {/* Hero Section */}
-      <div className="relative w-full h-[60vh] min-h-[500px] flex flex-col">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          {blog.featuredImage?.asset && (
-            <>
-              <Image
-                src={urlFor(blog.featuredImage).url()}
-                alt={blog.featuredImage.alt || blog.title}
-                fill
-                priority
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 via-60% to-transparent" />
-            </>
-          )}
-        </div>
-
-        {/* Back Button Container - Top positioned to clear header */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-28 md:pt-32 flex-shrink-0">
-          <BackButton />
-        </div>
-
-        {/* Hero Content - Bottom aligned */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16 mt-auto">
-          <div className="max-w-4xl">
-            {blog.category && (
-              <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary text-primary-foreground text-sm font-semibold tracking-wide shadow-lg shadow-primary/20">
-                {blog.category.title}
-              </span>
-            )}
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight tracking-tight drop-shadow-sm">
-              {blog.title}
-            </h1>
-
-            {/* Author & Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
-              {blog.author && (
-                <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-background bg-muted">
-                    {blog.author.image?.asset ? (
-                      <Image
-                        src={urlFor(blog.author.image).url()}
-                        alt={blog.author.name || "Author"}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <User className="w-6 h-6" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-lg text-foreground">
-                      {blog.author.name}
-                    </span>
-                    <span className="text-xs opacity-80 uppercase tracking-wider">
-                      Author
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="h-8 w-px bg-border hidden sm:block" />
-
-              <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-primary" />
-                <span className="font-medium">
-                  {format(new Date(blog._createdAt), "MMMM d, yyyy")}
-                </span>
-              </div>
-
-              {blog.readMinutes && (
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
-                  <Clock className="w-5 h-5 text-primary" />
-                  <span className="font-medium">
-                    {blog.readMinutes} min read
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Content Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-        <div className="max-w-3xl mx-auto">
-          {/* Description/Lead */}
-          <div className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-xl mb-12">
-            <p className="text-xl md:text-2xl font-medium text-card-foreground leading-relaxed italic opacity-90">
-              {blog.description}
-            </p>
-          </div>
-
-          {/* Main Content */}
-          <div className="bg-background">
-            <PortableText value={blog.content} />
-          </div>
-
-          {/* Footer/Share (Optional placeholder) */}
-          <div className="mt-16 pt-8 border-t border-border flex justify-between items-center">
-            <p className="text-muted-foreground font-medium">
-              Thanks for reading!
-            </p>
-            <Link
-              href="/blog"
-              className="text-primary hover:text-accent font-semibold inline-flex items-center gap-2 transition-colors"
-            >
-              View more articles <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-export default async function BlogPage({ params }: Props) {
-  const { slug } = await params;
 
   return (
     <Suspense
@@ -171,7 +39,125 @@ export default async function BlogPage({ params }: Props) {
         </div>
       }
     >
-      <BlogContent slug={slug} />
+      <article className="min-h-screen bg-background pb-24">
+        {/* Hero Section */}
+        <div className="relative w-full h-[60vh] min-h-[500px] flex flex-col">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            {blog.featuredImage?.asset && (
+              <>
+                <Image
+                  src={urlFor(blog.featuredImage).url()}
+                  alt={blog.featuredImage.alt || blog.title}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 via-60% to-transparent" />
+              </>
+            )}
+          </div>
+
+          {/* Back Button Container - Top positioned to clear header */}
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-28 md:pt-32 flex-shrink-0">
+            <BackButton />
+          </div>
+
+          {/* Hero Content - Bottom aligned */}
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16 mt-auto">
+            <div className="max-w-4xl">
+              {blog.category && (
+                <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary text-primary-foreground text-sm font-semibold tracking-wide shadow-lg shadow-primary/20">
+                  {blog.category.title}
+                </span>
+              )}
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight tracking-tight drop-shadow-sm">
+                {blog.title}
+              </h1>
+
+              {/* Author & Meta */}
+              <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
+                {blog.author && (
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-background bg-muted">
+                      {blog.author.image?.asset ? (
+                        <Image
+                          src={urlFor(blog.author.image).url()}
+                          alt={blog.author.name || "Author"}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <User className="w-6 h-6" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-lg text-foreground">
+                        {blog.author.name}
+                      </span>
+                      <span className="text-xs opacity-80 uppercase tracking-wider">
+                        Author
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="h-8 w-px bg-border hidden sm:block" />
+
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <span className="font-medium">
+                    {format(new Date(blog._createdAt), "MMMM d, yyyy")}
+                  </span>
+                </div>
+
+                {blog.readMinutes && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                    <Clock className="w-5 h-5 text-primary" />
+                    <span className="font-medium">
+                      {blog.readMinutes} min read
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+          <div className="max-w-3xl mx-auto">
+            {/* Description/Lead */}
+            <div className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-xl mb-12">
+              <p className="text-xl md:text-2xl font-medium text-card-foreground leading-relaxed italic opacity-90">
+                {blog.description}
+              </p>
+            </div>
+
+            {/* Main Content */}
+            <div className="bg-background">
+              <PortableText value={blog.content} />
+            </div>
+
+            {/* Footer/Share (Optional placeholder) */}
+            <div className="mt-16 pt-8 border-t border-border flex justify-between items-center">
+              <p className="text-muted-foreground font-medium">
+                Thanks for reading!
+              </p>
+              <Link
+                href="/blog"
+                className="text-primary hover:text-accent font-semibold inline-flex items-center gap-2 transition-colors"
+              >
+                View more articles <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </article>
     </Suspense>
   );
 }

@@ -1,8 +1,6 @@
 import { getPrivacyPolicy } from "@/sanity/lib/legal/getLegal";
 import LegalPageLayout from "@/components/LegalPageLayout";
 import { cacheLife } from "next/cache";
-import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
 
 const PrivacyPolicyPage = async () => {
   "use cache";
@@ -10,11 +8,7 @@ const PrivacyPolicyPage = async () => {
 
   const data = await getPrivacyPolicy();
 
-  return (
-    <Suspense fallback={<Spinner className="size-8 text-primary" />}>
-      <LegalPageLayout data={data} type="privacy" />
-    </Suspense>
-  );
+  return <LegalPageLayout data={data} type="privacy" />;
 };
 
 export default PrivacyPolicyPage;

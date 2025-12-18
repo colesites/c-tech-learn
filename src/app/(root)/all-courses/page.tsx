@@ -19,7 +19,7 @@ export default function AllCourses() {
 
 async function CoursesList() {
   "use cache";
-  cacheLife("seconds");
+  cacheLife("days");
 
   const allCourses = await getAllCourses();
 

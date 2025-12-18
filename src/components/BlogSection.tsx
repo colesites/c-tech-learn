@@ -9,7 +9,7 @@ import { BlogSectionSkeleton } from "./loader/BlogSectionSkeleton";
 
 const BlogSection = async () => {
   "use cache";
-  cacheLife("hours");
+  cacheLife("days");
 
   const blogs = await getBlogCards();
   const displayedBlogs = blogs.slice(0, 3);
