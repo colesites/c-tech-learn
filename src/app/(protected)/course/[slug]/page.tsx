@@ -1,3 +1,4 @@
+import React from "react";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -11,12 +12,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function CoursePage({
+export default function CoursePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug } = React.use(params);
 
   return (
     <MaxWidthWrapper>
