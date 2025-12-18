@@ -5,16 +5,7 @@ import { getAllCourses } from "@/sanity/lib/courses/getAllCourses";
 import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 
-async function CoursesList() {
-  "use cache";
-  cacheLife("seconds");
-
-  const allCourses = await getAllCourses();
-
-  return <AnimatedCoursesGrid courses={allCourses} />;
-}
-
-export default async function AllCourses() {
+export default function AllCourses() {
   return (
     <MaxWidthWrapper>
       <div className="min-h-screen bg-background relative overflow-hidden pt-32 pb-24">
@@ -24,4 +15,13 @@ export default async function AllCourses() {
       </div>
     </MaxWidthWrapper>
   );
+}
+
+async function CoursesList() {
+  "use cache";
+  cacheLife("seconds");
+
+  const allCourses = await getAllCourses();
+
+  return <AnimatedCoursesGrid courses={allCourses} />;
 }

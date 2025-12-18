@@ -6,15 +6,6 @@ import { AnimatedCoursesGrid } from "@/components/AnimatedCoursesGrid";
 import { AnimatedSectionHeader } from "@/components/AnimatedSectionHeader";
 import { AnimatedViewAllButton } from "@/components/AnimatedViewAllButton";
 
-async function CoursesList() {
-  "use cache";
-  cacheLife("seconds");
-
-  const latestCourses = await getLatestCourses();
-
-  return <AnimatedCoursesGrid courses={latestCourses} />;
-}
-
 const CoursesSection = () => {
   return (
     <div className="py-24 relative" id="courses">
@@ -35,3 +26,12 @@ const CoursesSection = () => {
 };
 
 export default CoursesSection;
+
+async function CoursesList() {
+  "use cache";
+  cacheLife("seconds");
+
+  const latestCourses = await getLatestCourses();
+
+  return <AnimatedCoursesGrid courses={latestCourses} />;
+}

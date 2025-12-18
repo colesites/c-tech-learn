@@ -5,14 +5,6 @@ import BlogGrid from "@/components/BlogGrid";
 import { BlogSectionSkeleton } from "@/components/loader/BlogSectionSkeleton";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
-async function BlogList() {
-  "use cache";
-  cacheLife("days");
-
-  const blogs = await getBlogCards();
-  return <BlogGrid blogs={blogs} />;
-}
-
 export default function BlogPage() {
   return (
     <MaxWidthWrapper>
@@ -52,4 +44,12 @@ export default function BlogPage() {
       </div>
     </MaxWidthWrapper>
   );
+}
+
+async function BlogList() {
+  "use cache";
+  cacheLife("days");
+
+  const blogs = await getBlogCards();
+  return <BlogGrid blogs={blogs} />;
 }
