@@ -37,7 +37,11 @@ const Header = () => {
             <NavMenu />
           </div>
           <div className="flex items-center gap-2">
-            {isPending ? null : !error && !session ? (
+            {isPending ? (
+              <Spinner className="size-6" />
+            ) : session ? (
+              <UserDropdownMenu />
+            ) : (
               <div className="hidden md:flex items-center gap-2">
                 <Link href="/sign-in">
                   <Button className="xl:text-lg">Sign In</Button>
@@ -46,14 +50,8 @@ const Header = () => {
                   <Button className="xl:text-lg">Get Started</Button>
                 </Link>
               </div>
-            ) : null}
+            )}
             <ThemeToggle />
-
-            {isPending ? (
-              <Spinner className="size-6" />
-            ) : session ? (
-              <UserDropdownMenu />
-            ) : null}
 
             {/* Mobile Menu */}
             <div className="md:hidden flex items-center justify-center">
