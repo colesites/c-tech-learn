@@ -1,5 +1,7 @@
+import { getSession } from "@/lib/auth-server";
 import { SignUpForm } from "./_components/SignupForm";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -7,5 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default async function SignUpPage() {
+  const session = await getSession();
+
+  if (session) {
+    redirect("/");
+  }
+
   return <SignUpForm />;
 }
