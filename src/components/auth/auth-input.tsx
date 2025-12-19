@@ -27,7 +27,7 @@ export const AuthInput = React.forwardRef<HTMLInputElement, AuthInputProps>(
           <Input
             ref={ref}
             className={cn(
-              "h-12 rounded-xl border-white/10 bg-white/5 px-4 text-base transition-all duration-300 placeholder:text-muted-foreground/50 focus:border-primary/50 focus:bg-white/10 focus:ring-4 focus:ring-primary/10",
+              "h-12 rounded-xl border-input bg-background/50 px-4 text-base transition-all duration-300 placeholder:text-muted-foreground/50 focus:border-primary/50 focus:bg-background focus:ring-4 focus:ring-primary/10",
               error && "border-destructive/50 focus:border-destructive/50 focus:ring-destructive/10",
               className
             )}

@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/auth-server";
-import { SignUpForm } from "./_components/SignupForm";
+import { SignUpFormClient } from "@/components/auth/SignupFormClient";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -15,5 +15,9 @@ export default async function SignUpPage() {
     redirect("/");
   }
 
-  return <SignUpForm />;
+  return (
+    <>
+      <SignUpFormClient />
+    </>
+  );
 }

@@ -8,10 +8,10 @@ export default async function AuthLayout({
   return (
     <div className="min-h-screen w-full lg:grid lg:grid-cols-2">
       {/* Left Side - Decorative */}
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div className="absolute inset-0 bg-zinc-900" />
+      <div className="relative hidden h-full flex-col bg-muted p-10 text-zinc-900 dark:text-white dark:border-r lg:flex">
+        <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-900" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-50 via-zinc-50/50 to-transparent dark:from-zinc-900 dark:via-zinc-900/50" />
 
         {/* Animated Background Elements */}
         <div className="absolute -left-[20%] top-0 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[100px] animate-pulse" />

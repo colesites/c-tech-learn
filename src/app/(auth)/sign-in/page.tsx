@@ -1,4 +1,4 @@
-import { SignInForm } from "./_components/SignInForm";
+import { SignInFormClient } from "@/components/auth/SignInFormClient";
 import type { Metadata } from "next";
 import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
@@ -15,5 +15,9 @@ export default async function SignInPage() {
     redirect("/all-courses");
   }
 
-  return <SignInForm />;
+  return (
+    <>
+      <SignInFormClient />
+    </>
+  );
 }

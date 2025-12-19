@@ -21,12 +21,12 @@ export function OAuthComp({
     <Button
       variant="outline"
       className={cn(
-        "relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border-white/10 bg-white/5 py-6 text-base font-medium text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] active:scale-[0.98]",
+        "relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border-input bg-secondary/50 py-6 text-base font-medium text-foreground transition-all duration-300 hover:border-accent hover:bg-secondary/80 hover:shadow-lg active:scale-[0.98]",
         className
       )}
       {...props}
     >
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       <span className="text-xl">{icon}</span>
       {label && <span>{label}</span>}
     </Button>
