@@ -12,6 +12,7 @@ import { AuthInput } from "@/features/auth/components/AuthInput";
 import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
 import { signUpSchema } from "@/schemas";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 type SignUpValues = z.infer<typeof signUpSchema>;
 
@@ -114,13 +115,13 @@ export function SignUpFormClient() {
 
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <a
+        <Link
           href="/sign-in"
           className="font-medium text-primary hover:text-primary/80
             hover:underline underline-offset-4 transition-colors"
         >
           Sign in
-        </a>
+        </Link>
       </p>
     </div>
   );
