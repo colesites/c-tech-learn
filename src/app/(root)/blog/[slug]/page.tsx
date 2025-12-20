@@ -9,15 +9,46 @@ import PortableText from "@/components/PortableText";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { BackButton } from "@/components/BackButton";
+import type { Metadata } from "next";
 
-// import { getAllBlogSlugs } from "@/sanity/lib/blogs/getBlog";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
 
-// export async function generateStaticParams() {
-//   const blogs = await getAllBlogSlugs();
-//   return blogs.map((blog) => ({
-//     slug: blog.slug.current,
-//   }));
-// }
+  const ogImageUrl = blog?.featuredImage?.asset
+    ? urlFor(blog.featuredImage).width(1200).height(630).fit("crop").url()
+    : undefined;
+  const title = blog?.title || "Blog Post";
+  const description = blog?.description || "Read our latest blog post";
+
+  return {
+    metadataBase: new URL("https://c-tech-learn.vercel.app"),
+
+    title,
+    description,
+
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `/blog/${slug}`,
+      images: ogImageUrl
+        ? [{ url: ogImageUrl, width: 1200, height: 630, alt: title }]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ogImageUrl ? [ogImageUrl] : [],
+    },
+  };
+}
 
 export default async function BlogPage({
   params,
