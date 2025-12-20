@@ -6,13 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { AuthInput } from "@/components/auth/auth-input";
+import { AuthInput } from "@/features/auth/components/AuthInput";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signInSchema } from "@/schemas";
 import { Spinner } from "@/components/ui/spinner";
-import { OAuthButtons } from "@/components/auth/OAuthButtons";
+import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
 
 type SignInValues = z.infer<typeof signInSchema>;
 

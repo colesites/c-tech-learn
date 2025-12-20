@@ -1,7 +1,5 @@
-"use client";
-
-import Logo from "./Logo";
-import { NavMenu } from "./NavMenu";
+import Logo from "@/components/Logo";
+import { NavMenu } from "@/components/NavMenu";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -22,12 +20,11 @@ import {
 import { Menu } from "lucide-react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import UserDropdownMenu from "./UserDropdownMenu";
-import { authClient } from "@/lib/auth-client";
-import { Spinner } from "./ui/spinner";
+import { getSession } from "@/lib/auth-server";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
-const Header = () => {
-  const { data: session, isPending, error, refetch } = authClient.useSession();
-
+export default function Header() {
   return (
     <header>
       <MaxWidthWrapper>
@@ -37,20 +34,9 @@ const Header = () => {
             <NavMenu />
           </div>
           <div className="flex items-center gap-2">
-            {isPending ? (
-              <Spinner className="size-6" />
-            ) : session ? (
-              <UserDropdownMenu />
-            ) : (
-              <div className="hidden md:flex items-center gap-2">
-                <Link href="/sign-in">
-                  <Button className="xl:text-lg">Sign In</Button>
-                </Link>
-                <Link href="/sign-up">
-                  <Button className="xl:text-lg">Get Started</Button>
-                </Link>
-              </div>
-            )}
+            <Suspense fallback={<Spinner className="size-6" />}>
+              <GetDesktopUserDropdownMenu />
+            </Suspense>
             <ThemeToggle />
 
             {/* Mobile Menu */}
@@ -108,14 +94,9 @@ const Header = () => {
                     </Accordion>
                   </SheetHeader>
                   <SheetFooter>
-                    <div className="flex justify-end items-center gap-2">
-                      <Link href="/sign-in">
-                        <Button>Sign In</Button>
-                      </Link>
-                      <Link href="/sign-up">
-                        <Button>Get Started</Button>
-                      </Link>
-                    </div>
+                    <Suspense fallback={<Spinner className="size-6" />}>
+                      <GetMobileUserDropdownMenu />
+                    </Suspense>
                   </SheetFooter>
                 </SheetContent>
               </Sheet>
@@ -125,6 +106,44 @@ const Header = () => {
       </MaxWidthWrapper>
     </header>
   );
-};
+}
 
-export default Header;
+async function GetDesktopUserDropdownMenu() {
+  const session = await getSession();
+
+  return (
+    <>
+      {session ? (
+        <UserDropdownMenu />
+      ) : (
+        <div className="hidden md:flex items-center gap-2">
+          <Link href="/sign-in">
+            <Button className="xl:text-lg">Sign In</Button>
+          </Link>
+          <Link href="/sign-up">
+            <Button className="xl:text-lg">Get Started</Button>
+          </Link>
+        </div>
+      )}
+    </>
+  );
+}
+
+async function GetMobileUserDropdownMenu() {
+  const session = await getSession();
+
+  return (
+    <>
+      {session ? null : (
+        <div className="flex justify-end items-center gap-2">
+          <Link href="/sign-in">
+            <Button>Sign In</Button>
+          </Link>
+          <Link href="/sign-up">
+            <Button>Get Started</Button>
+          </Link>
+        </div>
+      )}
+    </>
+  );
+}

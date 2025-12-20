@@ -1,4 +1,4 @@
-import { SignInFormClient } from "@/components/auth/SignInFormClient";
+import { SignInFormClient } from "@/features/auth/components/SignInFormClient";
 import type { Metadata } from "next";
 import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";

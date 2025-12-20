@@ -172,8 +172,16 @@ const HeroSection = () => {
       </p>
 
       <div className="hero-cta opacity-0 flex gap-4 mt-8">
-        <RainbowButton className="dark:text-black xl:text-2xl h-12">Get Started</RainbowButton>
-        <RainbowButton variant="outline" className="xl:text-2xl h-12">Sign In</RainbowButton>
+        <Link href="/sign-up">
+          <RainbowButton className="dark:text-black xl:text-2xl h-12">
+            Get Started
+          </RainbowButton>
+        </Link>
+        <Link href="/sign-in">
+          <RainbowButton variant="outline" className="xl:text-2xl h-12">
+            Sign In
+          </RainbowButton>
+        </Link>
       </div>
 
       <LogoLoop

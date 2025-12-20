@@ -1,8 +1,8 @@
-import { OAuthComp } from "./oauth-comp";
+import { OAuthComp } from "./OAuthComp";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Spinner } from "@/components/ui/spinner";
-import { useOAuthSignIn } from "@/lib/use-oauth-signin";
+import { useOAuthSignIn } from "@/features/auth/lib/use-oauth-signin";
 
 export function OAuthButtons() {
   const { googlePending, githubPending, signInGoogle, signInGithub } =

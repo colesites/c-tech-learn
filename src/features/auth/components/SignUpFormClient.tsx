@@ -8,8 +8,8 @@ import type { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { AuthInput } from "@/components/auth/auth-input";
-import { OAuthButtons } from "@/components/auth/OAuthButtons";
+import { AuthInput } from "@/features/auth/components/AuthInput";
+import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
 import { signUpSchema } from "@/schemas";
 import { authClient } from "@/lib/auth-client";
 

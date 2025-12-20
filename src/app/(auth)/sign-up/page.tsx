@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/auth-server";
-import { SignUpFormClient } from "@/components/auth/SignupFormClient";
+import { SignUpFormClient } from "@/features/auth/components/SignUpFormClient";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 

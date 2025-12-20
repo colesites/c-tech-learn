@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,39 +5,19 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { getSession } from "@/lib/auth-server";
+import { signOutAction } from "@/app/actions/auth";
 import { IoIosArrowDown } from "react-icons/io";
 import { Separator } from "@/components/ui/separator";
 import { FiLogOut } from "react-icons/fi";
 
-const UserDropdownMenu = () => {
-  const { data: session, error, refetch } = authClient.useSession();
-  const router = useRouter();
+const UserDropdownMenu = async () => {
+  const session = await getSession();
   const userImage = session?.user?.image || "";
-
-  if (!session) {
-    return null;
-  }
-
-  async function SignOut() {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/sign-in"); // redirect to sign-in page
-          toast.success("Logged out successfully");
-        },
-        onError: () => {
-          toast.error("Failed to sign out");
-        },
-      },
-    });
-  }
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="hidden md:block cursor-pointer outline-none">
+      <DropdownMenuTrigger className="cursor-pointer outline-none">
         <div className="flex flex-row items-center gap-2">
           <Avatar className="size-10">
             <AvatarImage src={userImage} />
@@ -59,15 +37,15 @@ const UserDropdownMenu = () => {
         </DropdownMenuItem>
         <Separator />
         <DropdownMenuItem>
-          <div>
+          <form action={signOutAction}>
             <button
-              onClick={SignOut}
+              type="submit"
               className="flex items-center gap-2 text-md cursor-pointer text-lg"
             >
               <FiLogOut className="size-4 text-white" />
               Logout
             </button>
-          </div>
+          </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
