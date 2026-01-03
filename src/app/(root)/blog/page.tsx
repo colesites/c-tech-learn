@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import { getBlogCards } from "@/sanity/lib/blogs/getBlog";
-import BlogGrid from "@/components/BlogGrid";
+import BlogGrid from "@/features/homepage/components/BlogGrid";
 import { BlogSectionSkeleton } from "@/components/loader/BlogSectionSkeleton";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 

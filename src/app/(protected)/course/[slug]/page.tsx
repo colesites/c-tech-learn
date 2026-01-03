@@ -1,9 +1,9 @@
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/features/homepage/components/FAQSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { RainbowButton } from "@/components/magic-ui/rainbow-button";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import TestimonialsSection from "@/features/homepage/components/TestimonialsSection";
 import { getCoursesBySlug } from "@/sanity/lib/courses/getCoursesBySlug";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";

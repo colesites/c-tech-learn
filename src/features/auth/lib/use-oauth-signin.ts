@@ -11,9 +11,6 @@ async function signInSocial(provider: Provider) {
     provider,
     callbackURL: "/all-courses",
     fetchOptions: {
-      onSuccess: () => {
-        toast.success("Signed in successfully!");
-      },
       onError: () => {
         toast.error("Internal server error");
       },

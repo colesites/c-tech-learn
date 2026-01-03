@@ -1,7 +1,7 @@
 "use client";
 
 import { TestimonialsColumn } from "@/components/testimonials-columns";
-import { testimonials } from "@/data";
+import { testimonials } from "@/features/homepage/data";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";

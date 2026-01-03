@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getBlogCards } from "@/sanity/lib/blogs/getBlog";
-import BlogGrid from "./BlogGrid";
-import BlogHeader from "./BlogHeader";
+import BlogGrid from "@/features/homepage/components/BlogGrid";
+import BlogHeader from "@/features/homepage/components/BlogHeader";
 import { Suspense } from "react";
 import { cacheLife } from "next/cache";
-import { BlogSectionSkeleton } from "./loader/BlogSectionSkeleton";
+import { BlogSectionSkeleton } from "@/components/loader/BlogSectionSkeleton";
 
 const BlogSection = async () => {
   "use cache";

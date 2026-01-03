@@ -20,7 +20,12 @@ export function SignInFormClient() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<SignInValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
@@ -44,6 +49,7 @@ export function SignInFormClient() {
           toast.success("Signed in successfully!");
           router.push("/all-courses");
           setIsLoading(false);
+          reset();
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -77,21 +83,21 @@ export function SignInFormClient() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <AuthInput
           label="Email"
           type="email"
           placeholder="john@example.com"
-          {...form.register("email")}
-          error={form.formState.errors.email?.message}
+          {...register("email")}
+          error={errors.email?.message}
         />
         <div className="space-y-1">
           <AuthInput
             label="Password"
             type="password"
             placeholder="••••••••"
-            {...form.register("password")}
-            error={form.formState.errors.password?.message}
+            {...register("password")}
+            error={errors.password?.message}
           />
           <div className="flex justify-end">
             <Link

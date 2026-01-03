@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { communityLinks } from "@/data";
+import { communityLinks } from "@/features/homepage/data";
 import CommunityCard from "./CommunityCard";
 
 const CommunitySection = () => {

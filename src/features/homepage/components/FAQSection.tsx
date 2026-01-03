@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
-import { faqs } from "@/data";
+import { faqs } from "@/features/homepage/data";
 import { Plus, Minus } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);

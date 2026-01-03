@@ -36,7 +36,6 @@ import {
   SiVercel,
 } from "react-icons/si";
 import { LogoLoop } from "@/components/react-bits/LogoLoop";
-import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 

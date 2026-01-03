@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
@@ -13,6 +12,7 @@ import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
 import { signUpSchema } from "@/schemas";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type SignUpValues = z.infer<typeof signUpSchema>;
 
@@ -20,7 +20,12 @@ export function SignUpFormClient() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<SignUpValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
@@ -37,15 +42,19 @@ export function SignUpFormClient() {
         name: values.name,
         email: values.email,
         password: values.password,
+        callbackURL: "/all-courses",
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
         onSuccess: () => {
-          toast.success("Account created successfully!");
-          router.push("/all-courses");
+          toast.success(
+            "Account created successfully! Please check your email for verification."
+          );
           setIsLoading(false);
+          router.push("/verify-email");
+          reset();
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -79,26 +88,26 @@ export function SignUpFormClient() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <AuthInput
           label="Full Name"
           placeholder="John Doe"
-          error={form.formState.errors.name?.message}
-          {...form.register("name")}
+          error={errors.name?.message}
+          {...register("name")}
         />
         <AuthInput
           label="Email"
           type="email"
           placeholder="john@example.com"
-          error={form.formState.errors.email?.message}
-          {...form.register("email")}
+          error={errors.email?.message}
+          {...register("email")}
         />
         <AuthInput
           label="Password"
           type="password"
           placeholder="••••••••"
-          error={form.formState.errors.password?.message}
-          {...form.register("password")}
+          error={errors.password?.message}
+          {...register("password")}
         />
 
         <Button
