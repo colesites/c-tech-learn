@@ -486,6 +486,7 @@ export function PricingTableFour({
                     <div className="mb-6">
                       <Button
                         onClick={() => handlePlanSelect(plan.id)}
+                        disabled={plan.disabled}
                         className={cn(
                           buttonVariants({ theme }),
                           !plan.highlight &&

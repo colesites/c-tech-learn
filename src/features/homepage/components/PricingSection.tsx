@@ -2,6 +2,9 @@
 
 import { PricingTableFour } from "@/components/billinsdk/pricing-table-four";
 import { useState, useEffect, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { Spinner } from "@/components/ui/spinner";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,6 +18,12 @@ interface PricingState {
 }
 
 export default function PricingSection() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  const [activeLoader, setActiveLoader] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [pricingState, setPricingState] = useState<PricingState>({
     currency: "NGN",
@@ -22,28 +31,42 @@ export default function PricingSection() {
     loading: true,
   });
 
+  // Reset loader when path changes (navigation complete)
   useEffect(() => {
+    setActiveLoader(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    let isMounted = true;
     const fetchLocation = async () => {
       try {
-        // Using ipapi.co to determine location
         const response = await fetch("https://ipapi.co/json/");
+        if (!response.ok) throw new Error("Location fetch failed");
         const data = await response.json();
 
-        const isNigeria = data.country_code === "NG";
-
-        setPricingState((prev) => ({
-          ...prev,
-          currency: isNigeria ? "NGN" : "USD",
-          loading: false,
-        }));
+        if (isMounted) {
+          const isNigeria = data.country_code === "NG";
+          setPricingState((prev: PricingState) => ({
+            ...prev,
+            currency: isNigeria ? "NGN" : "USD",
+            loading: false,
+          }));
+        }
       } catch (error) {
-        console.error("Failed to fetch location for pricing:", error);
-        // Fallback to NGN as base currency
-        setPricingState((prev) => ({ ...prev, loading: false }));
+        if (isMounted) {
+          // Fallback silently if CORS/429/Network error occurs
+          setPricingState((prev: PricingState) => ({
+            ...prev,
+            loading: false,
+          }));
+        }
       }
     };
 
     fetchLocation();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useGSAP(
@@ -119,7 +142,15 @@ export default function PricingSection() {
       currency: pricingState.currency === "NGN" ? "₦" : "$",
       monthlyPrice: "0",
       yearlyPrice: "0",
-      buttonText: "Start Learning Free",
+      buttonText:
+        activeLoader === "starter" ? (
+          <Spinner className="mr-2" />
+        ) : user ? (
+          "Access Courses"
+        ) : (
+          "Start Learning Free"
+        ),
+      disabled: activeLoader !== null,
       features: [
         {
           name: "Access to Free Topics",
@@ -152,7 +183,13 @@ export default function PricingSection() {
       // NGN: 4000 * 12 * 0.6 = 28800
       // USD: 5 * 12 * 0.6 = 36
       yearlyPrice: pricingState.currency === "NGN" ? "28,800" : "36",
-      buttonText: "Get Pro Access",
+      buttonText:
+        activeLoader === "pro" ? (
+          <Spinner className="mr-2" />
+        ) : (
+          "Get Pro Access"
+        ),
+      disabled: activeLoader !== null,
       features: [
         {
           name: "Access to All Courses",
@@ -193,7 +230,22 @@ export default function PricingSection() {
           yearly: "Yearly",
         }}
         className="w-full"
-        onPlanSelect={(planId) => console.log("Selected plan:", planId)}
+        onPlanSelect={(planId) => {
+          setActiveLoader(planId);
+          if (planId === "starter") {
+            if (user) {
+              router.push("/all-courses");
+            } else {
+              router.push("/sign-in");
+            }
+          } else if (planId === "pro") {
+            if (user) {
+              router.push("/pricing");
+            } else {
+              router.push("/sign-in");
+            }
+          }
+        }}
       />
     </div>
   );
