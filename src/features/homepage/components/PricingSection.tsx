@@ -8,6 +8,14 @@ import { Spinner } from "@/components/ui/spinner";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dynamic from "next/dynamic";
+import { toast } from "sonner";
+import type { PaystackPaymentHandle } from "./PaystackPaymentProvider";
+
+const PaystackPaymentProvider = dynamic(
+  () => import("./PaystackPaymentProvider"),
+  { ssr: false }
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,12 +32,14 @@ export default function PricingSection() {
   const user = session?.user;
 
   const [activeLoader, setActiveLoader] = useState<string | null>(null);
+  const [isAnnually, setIsAnnually] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [pricingState, setPricingState] = useState<PricingState>({
     currency: "NGN",
     exchangeRate: 1600, // Default fallback
     loading: true,
   });
+  const paystackRef = useRef<PaystackPaymentHandle>(null);
 
   // Reset loader when path changes (navigation complete)
   useEffect(() => {
@@ -183,12 +193,7 @@ export default function PricingSection() {
       // NGN: 4000 * 12 * 0.6 = 28800
       // USD: 5 * 12 * 0.6 = 36
       yearlyPrice: pricingState.currency === "NGN" ? "28,800" : "36",
-      buttonText:
-        activeLoader === "pro" ? (
-          <Spinner className="mr-2" />
-        ) : (
-          "Get Pro Access"
-        ),
+      buttonText: activeLoader === "pro" ? <Spinner /> : "Get Pro Access",
       disabled: activeLoader !== null,
       features: [
         {
@@ -215,8 +220,23 @@ export default function PricingSection() {
     },
   ];
 
+  const currentAmount = isAnnually
+    ? pricingState.currency === "NGN"
+      ? 28000
+      : 36
+    : pricingState.currency === "NGN"
+    ? 4000
+    : 5;
+
   return (
     <div ref={containerRef} className="relative py-20 md:py-24" id="pricing">
+      <PaystackPaymentProvider
+        ref={paystackRef}
+        email={user?.email || ""}
+        amount={currentAmount}
+        currency={pricingState.currency}
+        billingCycle={isAnnually ? "yearly" : "monthly"}
+      />
       <PricingTableFour
         plans={plans}
         title="Start Your Tech Journey Today"
@@ -230,20 +250,23 @@ export default function PricingSection() {
           yearly: "Yearly",
         }}
         className="w-full"
+        onBillingCycleChange={setIsAnnually}
         onPlanSelect={(planId) => {
-          setActiveLoader(planId);
           if (planId === "starter") {
+            setActiveLoader(planId);
             if (user) {
               router.push("/all-courses");
             } else {
               router.push("/sign-in");
             }
           } else if (planId === "pro") {
-            if (user) {
-              router.push("/pricing");
-            } else {
+            if (!user) {
+              setActiveLoader(planId);
               router.push("/sign-in");
+              return;
             }
+
+            paystackRef.current?.initialize();
           }
         }}
       />

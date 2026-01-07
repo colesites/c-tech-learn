@@ -178,13 +178,13 @@ const featureIconVariants = cva("flex-none h-[1lh]", {
   },
 });
 
-export interface PricingTableFourProps
-  extends VariantProps<typeof sectionVariants> {
+export interface PricingTableFourProps extends VariantProps<typeof sectionVariants> {
   plans: Plan[];
   title?: string;
   description?: string;
   subtitle?: string;
   onPlanSelect?: (planId: string) => void;
+  onBillingCycleChange?: (isAnnually: boolean) => void;
   className?: string;
   showBillingToggle?: boolean;
   billingToggleLabels?: {
@@ -213,6 +213,7 @@ export function PricingTableFour({
     monthly: "Monthly",
     yearly: "Yearly",
   },
+  onBillingCycleChange,
 }: PricingTableFourProps) {
   const [isAnnually, setIsAnnually] = useState(false);
   const uniqueId = useId();
@@ -293,7 +294,9 @@ export function PricingTableFour({
                 defaultValue="monthly"
                 className="h-full grid-cols-2"
                 onValueChange={(value) => {
-                  setIsAnnually(value === "annually");
+                  const annually = value === "annually";
+                  setIsAnnually(annually);
+                  onBillingCycleChange?.(annually);
                 }}
               >
                 <div className='has-[button[data-state="checked"]]:bg-background h-full rounded-md transition-all'>
