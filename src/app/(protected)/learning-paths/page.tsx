@@ -6,5 +6,10 @@ export default async function LearningPaths() {
   if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
   if (session.user.role !== "PRO") redirect("/#pricing");
 
-  return <div></div>;
+  return (
+    <div>
+      <h1>Learning Paths</h1>
+      <p>Explore our learning paths to master new skills.</p>
+    </div>
+  );
 }

@@ -6,5 +6,10 @@ export default async function Quiz() {
   if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
   if (session.user.role !== "PRO") redirect("/#pricing");
 
-  return <div></div>;
+  return (
+    <div>
+      <h1>Quiz</h1>
+      <p>Take our quizzes to test your knowledge.</p>
+    </div>
+  );
 }
