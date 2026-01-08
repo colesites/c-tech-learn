@@ -29,7 +29,7 @@ export default function PricingSection() {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = authClient.useSession();
-  const user = session?.user;
+  const user = session?.user as any;
 
   const [activeLoader, setActiveLoader] = useState<string | null>(null);
   const [isAnnually, setIsAnnually] = useState(false);
@@ -143,6 +143,20 @@ export default function PricingSection() {
     { scope: containerRef }
   );
 
+  // Auto-trigger payment if ?payment=pro is present
+  useEffect(() => {
+    if (pricingState.loading) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("payment") === "pro") {
+      if (user) {
+        if (user.role !== "PRO") {
+          paystackRef.current?.initialize();
+        }
+      }
+    }
+  }, [user, pricingState.loading]);
+
   const plans = [
     {
       id: "starter", // Maps to Package icon in PricingTableFour
@@ -155,8 +169,6 @@ export default function PricingSection() {
       buttonText:
         activeLoader === "starter" ? (
           <Spinner className="mr-2" />
-        ) : user ? (
-          "Access Courses"
         ) : (
           "Start Learning Free"
         ),
@@ -253,16 +265,20 @@ export default function PricingSection() {
         onBillingCycleChange={setIsAnnually}
         onPlanSelect={(planId) => {
           if (planId === "starter") {
-            setActiveLoader(planId);
-            if (user) {
-              router.push("/all-courses");
-            } else {
+            if (!user) {
+              setActiveLoader(planId);
               router.push("/sign-in");
             }
+            // If user is logged in, do nothing (they already have free access)
           } else if (planId === "pro") {
             if (!user) {
               setActiveLoader(planId);
               router.push("/sign-in");
+              return;
+            }
+
+            if (user.role === "PRO") {
+              toast.info("You already have Pro Access!");
               return;
             }
 

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -5,15 +7,31 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { getSession } from "@/lib/auth-server";
-import { signOutAction } from "@/app/actions/auth";
+import { authClient } from "@/lib/auth-client";
 import { IoIosArrowDown } from "react-icons/io";
 import { Separator } from "@/components/ui/separator";
 import { FiLogOut } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const UserDropdownMenu = async () => {
-  const session = await getSession();
+const UserDropdownMenu = () => {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
   const userImage = session?.user?.image || "";
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Signed out successfully!");
+          router.push("/sign-in");
+          router.refresh();
+        },
+      },
+    });
+  };
+
+  if (!session) return null;
 
   return (
     <DropdownMenu>
@@ -36,16 +54,11 @@ const UserDropdownMenu = async () => {
           </div>
         </DropdownMenuItem>
         <Separator />
-        <DropdownMenuItem>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="flex items-center gap-2 text-md cursor-pointer text-lg"
-            >
-              <FiLogOut className="size-4 text-white" />
-              Logout
-            </button>
-          </form>
+        <DropdownMenuItem onClick={handleSignOut}>
+          <div className="flex items-center gap-2 text-md cursor-pointer text-lg">
+            <FiLogOut className="size-4 text-white" />
+            Logout
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

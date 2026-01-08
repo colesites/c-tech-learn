@@ -12,7 +12,7 @@ import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
 import { signUpSchema } from "@/schemas";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type SignUpValues = z.infer<typeof signUpSchema>;
 
@@ -42,7 +42,7 @@ export function SignUpFormClient() {
         name: values.name,
         email: values.email,
         password: values.password,
-        callbackURL: "/all-courses",
+        callbackURL: "/callback",
       },
       {
         onRequest: () => {

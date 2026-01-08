@@ -63,31 +63,31 @@ export function NavMenu() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="#about" title="About">
+              <ListItem href="/#about" title="About">
                 Who we are and what we do
               </ListItem>
-              <ListItem href="#pricing" title="Pricing">
+              <ListItem href="/#pricing" title="Pricing">
                 Our pricing plans
               </ListItem>
-              <ListItem href="#community" title="Community">
+              <ListItem href="/#community" title="Community">
                 Join our community
               </ListItem>
-              <ListItem href="#courses" title="Courses">
+              <ListItem href="/#courses" title="Courses">
                 Our courses and what they cover
               </ListItem>
-              <ListItem href="#testimonials" title="Testimonials">
+              <ListItem href="/#testimonials" title="Testimonials">
                 What our students say
               </ListItem>
-              <ListItem href="#faq" title="FAQ">
+              <ListItem href="/#faq" title="FAQ">
                 Frequently asked questions
               </ListItem>
-              <ListItem href="#how-it-works" title="How It Works">
+              <ListItem href="/#how-it-works" title="How It Works">
                 How our courses work
               </ListItem>
-              <ListItem href="#blog" title="Blog">
+              <ListItem href="/#blog" title="Blog">
                 Read our latest blog posts
               </ListItem>
-              <ListItem href="#contact" title="Contact">
+              <ListItem href="/#contact" title="Contact">
                 Get in touch with us
               </ListItem>
             </ul>

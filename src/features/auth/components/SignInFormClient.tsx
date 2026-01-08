@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { AuthInput } from "@/features/auth/components/AuthInput";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signInSchema } from "@/schemas";
 import { Spinner } from "@/components/ui/spinner";
 import { OAuthButtons } from "@/features/auth/components/OAuthButtons";
@@ -45,10 +45,22 @@ export function SignInFormClient() {
         onRequest: () => {
           setIsLoading(true);
         },
-        onSuccess: () => {
+        onSuccess: async () => {
           toast.success("Signed in successfully!");
-          router.push("/all-courses");
+
+          // Fetch the session to get user role
+          const session = await authClient.getSession();
+          const user = session?.data?.user as any;
+
+          // Redirect based on role
+          if (user?.role === "PRO") {
+            router.push("/dashboard");
+          } else {
+            router.push("/all-courses");
+          }
+
           setIsLoading(false);
+          router.refresh();
           reset();
         },
         onError: (ctx) => {

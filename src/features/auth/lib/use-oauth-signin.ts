@@ -9,7 +9,7 @@ type Provider = "google" | "github";
 async function signInSocial(provider: Provider) {
   await authClient.signIn.social({
     provider,
-    callbackURL: "/all-courses",
+    callbackURL: "/callback",
     fetchOptions: {
       onError: () => {
         toast.error("Internal server error");

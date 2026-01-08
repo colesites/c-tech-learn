@@ -37,9 +37,30 @@ const PaystackPaymentProvider = forwardRef<
   useImperativeHandle(ref, () => ({
     initialize: () => {
       initializePayment({
-        onSuccess: () => {
-          toast.success("Welcome to Pro Scholar!");
-          router.push("/dashboard");
+        onSuccess: async (response: any) => {
+          try {
+            const res = await fetch("/api/payments/verify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ reference: response.reference }),
+            });
+
+            if (res.ok) {
+              toast.success("Welcome to Pro Scholar!");
+              router.push("/dashboard");
+              router.refresh(); // Refresh to update session data
+            } else {
+              const errorData = await res.json();
+              toast.error(
+                errorData.error || "Failed to activate subscription."
+              );
+            }
+          } catch (error) {
+            console.error("Verification error:", error);
+            toast.error("An error occurred while verifying your payment.");
+          }
         },
         onClose: () => {
           toast.info("Payment cancelled.");

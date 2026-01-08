@@ -7,13 +7,18 @@ import TestimonialsSection from "@/features/homepage/components/TestimonialsSect
 import { getCoursesBySlug } from "@/sanity/lib/courses/getCoursesBySlug";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getSession } from "@/lib/auth-server";
 
 export default async function CoursePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const session = await getSession();
+  if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
+  if (session.user.role !== "PRO") redirect("/#pricing");
+
   const { slug } = await params;
   const course = await getCoursesBySlug(slug);
 

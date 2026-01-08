@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { MailCheck, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";

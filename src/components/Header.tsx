@@ -54,15 +54,15 @@ export default function Header() {
                           Home
                         </AccordionTrigger>
                         <AccordionContent className="flex flex-col gap-y-2 mt-2 pl-2 text-lg">
-                          <Link href="#about">About</Link>
-                          <Link href="#courses">Courses</Link>
-                          <Link href="#how-it-works">How It Works</Link>
-                          <Link href="#pricing">Pricing</Link>
-                          <Link href="#testimonials">Testimonials</Link>
-                          <Link href="#blogs">Blogs</Link>
-                          <Link href="#community">Community</Link>
-                          <Link href="#faq">FAQ</Link>
-                          <Link href="#contact">Contact</Link>
+                          <Link href="/#about">About</Link>
+                          <Link href="/#courses">Courses</Link>
+                          <Link href="/#how-it-works">How It Works</Link>
+                          <Link href="/#pricing">Pricing</Link>
+                          <Link href="/#testimonials">Testimonials</Link>
+                          <Link href="/#blogs">Blogs</Link>
+                          <Link href="/#community">Community</Link>
+                          <Link href="/#faq">FAQ</Link>
+                          <Link href="/#contact">Contact</Link>
                         </AccordionContent>
                       </AccordionItem>
                       <AccordionItem value="courses">
