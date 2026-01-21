@@ -10,12 +10,23 @@
 import { NextStudio } from "next-sanity/studio";
 import config from "../../../../sanity.config";
 import { cacheLife } from "next/cache";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export { metadata, viewport } from "next-sanity/studio";
 
-export default async function StudioPage() {
-  "use cache";
-  cacheLife("max");
+function StudioFallback() {
+  return (
+    <div className="p-6 text-sm text-muted-foreground">
+      <Spinner className="size-10 text-primary" />
+    </div>
+  );
+}
 
-  return <NextStudio config={config} />;
+export default function StudioPage() {
+  return (
+    <Suspense fallback={<StudioFallback />}>
+      <NextStudio config={config} />;
+    </Suspense>
+  );
 }

@@ -55,19 +55,24 @@
   --color-color-3: var(--color-3);
   --color-color-2: var(--color-2);
   --color-color-1: var(--color-1);
+
   @keyframes rainbow {
-  0% {
-    background-position: 0%;
+    0% {
+      background-position: 0%;
     }
-  100% {
-    background-position: 200%;
+
+    100% {
+      background-position: 200%;
     }
   }
+
   --animate-marquee: marquee var(--marquee-duration) linear infinite;
+
   @keyframes marquee {
     0% {
       transform: translateY(0%);
     }
+
     100% {
       transform: translateY(-50%);
     }
@@ -157,11 +162,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 
   header {
     @apply bg-background text-foreground w-full fixed top-0 left-0 right-0 z-50;
+  }
+
+  .shiki,
+  .shiki pre,
+  .shiki code {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }

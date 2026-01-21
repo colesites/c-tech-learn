@@ -1,6 +1,4 @@
 import FAQSection from "@/features/homepage/components/FAQSection";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { RainbowButton } from "@/components/magic-ui/rainbow-button";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import TestimonialsSection from "@/features/homepage/components/TestimonialsSection";
@@ -9,6 +7,8 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth-server";
+import PortableText from "@/components/PortableText";
+import CourseCurriculum from "@/components/CourseCurriculum";
 
 export default async function CoursePage({
   params,
@@ -55,7 +55,15 @@ export default async function CoursePage({
             />
           </div>
         </div>
+        <PortableText value={course.introduction} />
         <TestimonialsSection />
+        <div className="pt-24 md:pt-32 relative overflow-hidden">
+          <h2 className="font-bold text-3xl text-center tracking-tight lg:text-5xl text-foreground mb-10">
+            The Complete <span className="text-primary">Course Curriculum</span>
+          </h2>
+
+          <CourseCurriculum curriculum={course.curriculum} slug={slug} />
+        </div>
         <FAQSection />
       </div>
     </MaxWidthWrapper>

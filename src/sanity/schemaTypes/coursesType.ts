@@ -67,6 +67,18 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
+              name: "slug",
+              title: "Module Slug",
+              type: "slug",
+              options: {
+                source: (_doc, { parent }) => {
+                  const p = parent as { title?: string }
+                  return p?.title ?? ""
+                },
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
               name: "number",
               title: "Module Number",
               type: "string",

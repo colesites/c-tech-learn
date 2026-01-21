@@ -10,7 +10,17 @@ const GET_COURSES_BY_SLUG_QUERY =
   image,
   price,
   introduction,
-  curriculum
+  curriculum[] {
+    title,
+    slug,
+    number,
+    lessons[]->{
+      title,
+      slug,
+      isFree,
+      content
+    }
+  }
 }`);
 
 export const getCoursesBySlug = async (slug: string) => {
