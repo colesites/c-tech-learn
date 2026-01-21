@@ -13,13 +13,13 @@ import CourseCurriculum from "@/components/CourseCurriculum";
 export default async function CoursePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ courseSlug: string }>;
 }) {
   const session = await getSession();
   if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
   if (session.user.role !== "PRO") redirect("/#pricing");
 
-  const { slug } = await params;
+  const { courseSlug: slug } = await params;
   const course = await getCoursesBySlug(slug);
 
   if (!course) {

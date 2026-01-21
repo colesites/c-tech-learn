@@ -9,7 +9,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 type Lesson = {
-  _id: string;
   title: string;
   slug: { current: string };
   isFree?: boolean;
