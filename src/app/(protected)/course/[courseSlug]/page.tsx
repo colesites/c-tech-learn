@@ -40,8 +40,12 @@ export default async function CoursePage({
                 <RainbowButton className="dark:text-black xl:text-xl h-12">
                   Start the Learning
                 </RainbowButton>
-                <RainbowButton variant="outline" className="xl:text-xl h-12">
-                  Preview Lectures
+                <RainbowButton
+                  variant="outline"
+                  className="xl:text-xl h-12"
+                  asChild
+                >
+                  <a href="#curriculum">Preview Lectures</a>
                 </RainbowButton>
               </div>
             </div>
@@ -62,7 +66,9 @@ export default async function CoursePage({
             The Complete <span className="text-primary">Course Curriculum</span>
           </h2>
 
-          <CourseCurriculum curriculum={course.curriculum} slug={slug} />
+          <div id="curriculum" className="scroll-mt-32">
+            <CourseCurriculum curriculum={course.curriculum} slug={slug} />
+          </div>
         </div>
         <FAQSection />
       </div>

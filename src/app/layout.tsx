@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ConsentManager } from "@/components/consent-manager";
+import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -41,7 +43,9 @@ export default function AppLayout({
             <Toaster richColors />
           </ThemeProvider>
         </ConsentManager>
+        <Analytics />
       </body>
+      <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_ID as string} />
     </html>
   );
 }
