@@ -4,13 +4,13 @@ import { PricingTableFour } from "@/components/billinsdk/pricing-table-four";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { Spinner } from "@/components/ui/spinner";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
 import type { PaystackPaymentHandle } from "./PaystackPaymentProvider";
+import { getPlans, PricingState } from "@/features/pricing/pricing-plans";
 
 const PaystackPaymentProvider = dynamic(
   () => import("./PaystackPaymentProvider"),
@@ -18,12 +18,6 @@ const PaystackPaymentProvider = dynamic(
 );
 
 gsap.registerPlugin(ScrollTrigger);
-
-interface PricingState {
-  currency: "NGN" | "USD";
-  exchangeRate: number; // 1 USD to NGN
-  loading: boolean;
-}
 
 export default function PricingSection() {
   const router = useRouter();
@@ -157,88 +151,12 @@ export default function PricingSection() {
     }
   }, [user, pricingState.loading]);
 
-  const plans = [
-    {
-      id: "starter", // Maps to Package icon in PricingTableFour
-      title: "Free Tier",
-      description:
-        "Start your journey with essential tools and community access.",
-      currency: pricingState.currency === "NGN" ? "₦" : "$",
-      monthlyPrice: "0",
-      yearlyPrice: "0",
-      buttonText:
-        activeLoader === "starter" ? (
-          <Spinner className="mr-2" />
-        ) : (
-          "Start Learning Free"
-        ),
-      disabled: activeLoader !== null,
-      features: [
-        {
-          name: "Access to Free Topics",
-          icon: "check",
-        },
-        {
-          name: "Buy Individual Courses",
-          icon: "check",
-        },
-        {
-          name: "Community Access",
-          icon: "check",
-        },
-        {
-          name: "Basic Code Editor",
-          icon: "check",
-        },
-      ],
-    },
-    {
-      id: "pro", // Maps to Award icon in PricingTableFour
-      title: "Pro Access",
-      description:
-        "Accelerate your career with unlimited access and premium features.",
-      highlight: true,
-      badge: "Most Popular",
-      currency: pricingState.currency === "NGN" ? "₦" : "$",
-      monthlyPrice: pricingState.currency === "NGN" ? "4,000" : "5",
-      // Yearly: 40% discount.
-      // NGN: 4000 * 12 * 0.6 = 28800
-      // USD: 5 * 12 * 0.6 = 36
-      yearlyPrice: pricingState.currency === "NGN" ? "28,800" : "36",
-      buttonText: activeLoader === "pro" ? <Spinner /> : "Get Pro Access",
-      disabled: activeLoader !== null,
-      features: [
-        {
-          name: "Access to All Courses",
-          icon: "check",
-        },
-        {
-          name: "Structured Learning Paths",
-          icon: "check",
-        },
-        {
-          name: "Interactive Quizzes",
-          icon: "check",
-        },
-        {
-          name: "Premium Support",
-          icon: "check",
-        },
-        {
-          name: "Certificate of Completion",
-          icon: "check",
-        },
-      ],
-    },
-  ];
+  const plans = getPlans({ pricingState, activeLoader });
 
+  const proPlan = plans.find((p) => p.id === "pro");
   const currentAmount = isAnnually
-    ? pricingState.currency === "NGN"
-      ? 28000
-      : 36
-    : pricingState.currency === "NGN"
-    ? 4000
-    : 5;
+    ? proPlan?.yearlyAmount ?? 0
+    : proPlan?.monthlyAmount ?? 0;
 
   return (
     <div ref={containerRef} className="relative py-20 md:py-24" id="pricing">

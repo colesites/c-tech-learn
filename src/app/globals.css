@@ -169,7 +169,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 160px;
+    /* scroll-padding-top: 160px; */
   }  
 
   header {

@@ -81,7 +81,7 @@ const ContactSection = () => {
 
   return (
     <div
-      className="py-24 md:py-32 relative overflow-hidden"
+      className="py-24 md:py-32 scroll-mt-24 md:scroll-mt-32 relative overflow-hidden"
       ref={containerRef}
       id="contact"
     >
@@ -150,11 +150,11 @@ const ContactSection = () => {
           {/* Right Side: Form */}
           <div className="relative">
             {/* Decorative backdrop for form */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-blue-500/10 rounded-[2rem] blur-2xl -z-10" />
+            <div className="absolute inset-0 bg-linear-to-tr from-primary/10 via-transparent to-blue-500/10 rounded-4xl blur-2xl -z-10" />
 
             <form
               ref={formRef}
-              className="bg-background/80 dark:bg-card/30 backdrop-blur-xl border border-border rounded-[2rem] p-8 md:p-10 shadow-2xl"
+              className="bg-background/80 dark:bg-card/30 backdrop-blur-xl border border-border rounded-4xl p-8 md:p-10 shadow-2xl"
               onSubmit={(e) => e.preventDefault()}
             >
               <FieldSet className="gap-8">

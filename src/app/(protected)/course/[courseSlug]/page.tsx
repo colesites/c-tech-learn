@@ -5,73 +5,80 @@ import TestimonialsSection from "@/features/homepage/components/TestimonialsSect
 import { getCoursesBySlug } from "@/sanity/lib/courses/getCoursesBySlug";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
-import { getSession } from "@/lib/auth-server";
+import { notFound } from "next/navigation";
 import PortableText from "@/components/PortableText";
 import CourseCurriculum from "@/components/CourseCurriculum";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export default async function CoursePage({
   params,
 }: {
   params: Promise<{ courseSlug: string }>;
 }) {
-  const session = await getSession();
-  if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
-  if (session.user.role !== "PRO") redirect("/#pricing");
-
-  const { courseSlug: slug } = await params;
-  const course = await getCoursesBySlug(slug);
+  const course = await getCoursesBySlug((await params).courseSlug);
 
   if (!course) {
     notFound();
   }
 
   return (
-    <MaxWidthWrapper>
-      <div className="min-h-screen bg-background relative overflow-hidden pt-32 pb-24">
-        <div className="flex items-center">
-          <div className="w-1/2">
-            <div className="flex flex-col gap-4">
-              <h1 className="text-6xl font-bold">{course.title}</h1>
-              <p className="text-lg text-muted-foreground">
-                {course.description}
-              </p>
-              <div className="flex gap-2">
-                <RainbowButton className="dark:text-black xl:text-xl h-12">
-                  Start the Learning
-                </RainbowButton>
-                <RainbowButton
-                  variant="outline"
-                  className="xl:text-xl h-12"
-                  asChild
-                >
-                  <a href="#curriculum">Preview Lectures</a>
-                </RainbowButton>
+    <>
+      <Header />
+      <MaxWidthWrapper>
+        <div className="min-h-screen bg-background relative overflow-hidden pt-32 pb-24">
+          <div className="flex items-center">
+            <div className="w-1/2">
+              <div className="flex flex-col gap-4">
+                <h1 className="text-6xl font-bold">{course.title}</h1>
+                <p className="text-lg text-muted-foreground">
+                  {course.description}
+                </p>
+                <div className="flex gap-2">
+                  <RainbowButton className="dark:text-black xl:text-xl h-12">
+                    Start the Learning
+                  </RainbowButton>
+                  <RainbowButton
+                    variant="outline"
+                    className="xl:text-xl h-12"
+                    asChild
+                  >
+                    <a href="#curriculum">Preview Lectures</a>
+                  </RainbowButton>
+                </div>
               </div>
             </div>
+            <div className="w-1/2 flex justify-end">
+              <Image
+                src={urlFor(course.image).url()}
+                alt={course.title || ""}
+                width={300}
+                height={300}
+              />
+            </div>
           </div>
-          <div className="w-1/2 flex justify-end">
-            <Image
-              src={urlFor(course.image).url()}
-              alt={course.title || ""}
-              width={300}
-              height={300}
-            />
-          </div>
-        </div>
-        <PortableText value={course.introduction} />
-        <TestimonialsSection />
-        <div className="pt-24 md:pt-32 relative overflow-hidden">
-          <h2 className="font-bold text-3xl text-center tracking-tight lg:text-5xl text-foreground mb-10">
-            The Complete <span className="text-primary">Course Curriculum</span>
-          </h2>
+          <PortableText value={course.introduction} />
+          <TestimonialsSection />
+          <div
+            id="curriculum"
+            className="pt-24 md:pt-32 relative overflow-hidden"
+          >
+            <h2 className="font-bold text-3xl text-center tracking-tight lg:text-5xl text-foreground mb-10">
+              The Complete{" "}
+              <span className="text-primary">Course Curriculum</span>
+            </h2>
 
-          <div id="curriculum" className="scroll-mt-32">
-            <CourseCurriculum curriculum={course.curriculum} slug={slug} />
+            <div>
+              <CourseCurriculum
+                curriculum={course.curriculum}
+                slug={(await params).courseSlug}
+              />
+            </div>
           </div>
+          <FAQSection />
         </div>
-        <FAQSection />
-      </div>
-    </MaxWidthWrapper>
+      </MaxWidthWrapper>
+      <Footer />
+    </>
   );
 }

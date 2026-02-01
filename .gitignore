@@ -45,3 +45,11 @@ next-env.d.ts
 .windsurfrules
 
 .env.local
+
+.agent
+.agents
+.codacy
+.codex
+.cursor
+.gemini
+.zencoder
