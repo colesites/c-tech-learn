@@ -3,6 +3,7 @@ import { sanityFetch } from "../live";
 
 const GET_LESSON_BY_SLUG_QUERY = defineQuery(`
   *[_type == "lesson" && slug.current == $slug][0]{
+    _id,
     title,
     slug,
     isFree,

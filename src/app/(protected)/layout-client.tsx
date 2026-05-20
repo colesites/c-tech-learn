@@ -35,7 +35,7 @@ function LayoutRouter({ children, user }: ProtectedLayoutClientProps) {
 
 export function ProtectedLayoutClient({ children, user }: ProtectedLayoutClientProps) {
   return (
-    <Suspense fallback={<DashboardLayout user={user}>{children}</DashboardLayout>}>
+    <Suspense fallback={<section className="w-full">{children}</section>}>
       <LayoutRouter user={user}>{children}</LayoutRouter>
     </Suspense>
   );

@@ -25,13 +25,13 @@ const GET_COURSES_BY_SLUG_QUERY =
 
 export const getCoursesBySlug = async (slug: string) => {
   try {
-    const courses = await sanityFetch({
+    const { data } = await sanityFetch({
       query: GET_COURSES_BY_SLUG_QUERY,
       params: { slug },
     });
-    return courses.data ?? [];
+    return data ?? null;
   } catch (error) {
     console.error("Error fetching course by slug:", error);
-    return [];
+    return null;
   }
 };

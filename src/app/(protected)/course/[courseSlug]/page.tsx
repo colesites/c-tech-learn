@@ -19,17 +19,21 @@ export default async function CoursePage({
 }: {
   params: Promise<{ courseSlug: string }>;
 }) {
-  const course = await getCoursesBySlug((await params).courseSlug);
+  const { courseSlug } = await params;
+
+  const [course, session] = await Promise.all([
+    getCoursesBySlug(courseSlug),
+    getSession(),
+  ]);
 
   if (!course) {
     notFound();
   }
 
-  const session = await getSession();
   const firstModule = course.curriculum?.[0];
   const firstLesson = firstModule?.lessons?.[0];
   const firstLessonUrl = firstLesson
-    ? `/course/${(await params).courseSlug}/${firstModule.slug.current}/${firstLesson.slug.current}`
+    ? `/course/${courseSlug}/${firstModule.slug.current}/${firstLesson.slug.current}`
     : "#curriculum";
 
   return (
@@ -86,7 +90,7 @@ export default async function CoursePage({
             <div>
               <CourseCurriculum
                 curriculum={course.curriculum}
-                slug={(await params).courseSlug}
+                slug={courseSlug}
               />
             </div>
           </div>

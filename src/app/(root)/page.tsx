@@ -9,6 +9,7 @@ import HowItWorksSection from "@/features/homepage/components/HowItWorksSection"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import PricingSection from "@/features/homepage/components/PricingSection";
 import TestimonialsSection from "@/features/homepage/components/TestimonialsSection";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -17,7 +18,9 @@ export default function Home() {
       <AboutSection />
       <CoursesSection />
       <HowItWorksSection />
-      <PricingSection />
+      <Suspense>
+        <PricingSection />
+      </Suspense>
       <TestimonialsSection />
       <BlogSection />
       <CommunitySection />

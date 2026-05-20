@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import { ResetPasswordFormClient } from "@/features/auth/components/ResetPasswordFormClient";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -26,8 +27,8 @@ export default async function ResetPasswordPage({
   }
 
   return (
-    <>
+    <Suspense>
       <ResetPasswordFormClient />
-    </>
+    </Suspense>
   );
 }

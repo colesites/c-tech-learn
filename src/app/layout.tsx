@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ConsentManager } from "@/components/consent-manager";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Suspense } from "react";
+import { SanityLive } from "@/sanity/lib/live";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -32,17 +34,20 @@ export default function AppLayout({
       suppressHydrationWarning
     >
       <body className={`${interSans.variable} antialiased`}>
-        <ConsentManager>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <main>{children}</main>
-            <Toaster richColors />
-          </ThemeProvider>
-        </ConsentManager>
+        <Suspense fallback={<main>{children}</main>}>
+          <ConsentManager>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <main>{children}</main>
+              <Toaster richColors />
+            </ThemeProvider>
+          </ConsentManager>
+        </Suspense>
+        <SanityLive />
         <Analytics />
       </body>
       <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_ID as string} />

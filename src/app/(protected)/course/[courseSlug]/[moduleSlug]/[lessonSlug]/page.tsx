@@ -17,15 +17,16 @@ export default async function LessonPage({
     courseSlug: string;
   }>;
 }) {
-  const { lessonSlug } = await params;
-  const session = await getSession();
+  const { lessonSlug, courseSlug } = await params;
+
+  const [session, lesson, course] = await Promise.all([
+    getSession(),
+    getLessonBySlug(lessonSlug),
+    getCoursesBySlug(courseSlug),
+  ]);
 
   if (!session) redirect("/sign-in?callbackUrl=/?payment=pro%23pricing");
-
-  const lesson = await getLessonBySlug(lessonSlug);
   if (!lesson) notFound();
-
-  const course = await getCoursesBySlug((await params).courseSlug);
 
   if (session.user.role !== "PRO" && !lesson.isFree)
     return (
