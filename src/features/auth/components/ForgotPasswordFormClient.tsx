@@ -73,7 +73,7 @@ export function ForgotPasswordFormClient() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-primary
+          className="w-full h-12 rounded-xl bg-linear-to-r from-primary
             to-purple-600 text-base font-semibold text-white shadow-lg
             shadow-primary/25 transition-all duration-300 hover:scale-[1.02]
             hover:shadow-primary/40 active:scale-[0.98]"

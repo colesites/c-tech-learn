@@ -10,6 +10,9 @@ import PortableText from "@/components/PortableText";
 import CourseCurriculum from "@/components/CourseCurriculum";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { getSession } from "@/lib/auth-server";
+import { EnrollmentHandler } from "@/features/courses/components/EnrollmentHandler";
+import Link from "next/link";
 
 export default async function CoursePage({
   params,
@@ -22,9 +25,19 @@ export default async function CoursePage({
     notFound();
   }
 
+  const session = await getSession();
+  const firstModule = course.curriculum?.[0];
+  const firstLesson = firstModule?.lessons?.[0];
+  const firstLessonUrl = firstLesson
+    ? `/course/${(await params).courseSlug}/${firstModule.slug.current}/${firstLesson.slug.current}`
+    : "#curriculum";
+
   return (
     <>
       <Header />
+      {session?.user?.email && (
+        <EnrollmentHandler email={session.user.email} courseId={course._id} />
+      )}
       <MaxWidthWrapper>
         <div className="min-h-screen bg-background relative overflow-hidden pt-32 pb-24">
           <div className="flex items-center">
@@ -35,9 +48,11 @@ export default async function CoursePage({
                   {course.description}
                 </p>
                 <div className="flex gap-2">
-                  <RainbowButton className="dark:text-black xl:text-xl h-12">
-                    Start the Learning
-                  </RainbowButton>
+                  <Link href={firstLessonUrl}>
+                    <RainbowButton className="dark:text-black xl:text-xl h-12">
+                      Start the Learning
+                    </RainbowButton>
+                  </Link>
                   <RainbowButton
                     variant="outline"
                     className="xl:text-xl h-12"

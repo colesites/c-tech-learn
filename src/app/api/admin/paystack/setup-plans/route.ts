@@ -13,14 +13,14 @@ export async function GET() {
       {
         name: "Pro Monthly (NGN)",
         interval: "monthly" as const,
-        amount: 4000 * 100, // 4,000 NGN in kobo
+        amount: 1000 * 100, // 4,000 NGN in kobo
         currency: "NGN",
         description: "Monthly subscription to C-Tech Learn Pro (NGN)",
       },
       {
         name: "Pro Yearly (NGN)",
         interval: "annually" as const,
-        amount: 28000 * 100, // 28,000 NGN in kobo
+        amount: 10000 * 100, // 28,000 NGN in kobo
         currency: "NGN",
         description: "Yearly subscription to C-Tech Learn Pro (NGN)",
       },

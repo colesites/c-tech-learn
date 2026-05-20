@@ -11,6 +11,7 @@ import { privacyPolicyType } from "./privacyPolicyType";
 import { termsOfServiceType } from "./termsOfServiceType";
 import { privacySectionType } from "./privacySectionType";
 import { termsSectionType } from "./termsSectionType";
+import enrollmentType from "./enrollmentType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -24,5 +25,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     termsOfServiceType,
     privacySectionType,
     termsSectionType,
+    enrollmentType,
   ],
 };

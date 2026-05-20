@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { cacheLife } from "next/cache";
 import { getBlogCards } from "@/sanity/lib/blogs/getBlog";
 import BlogGrid from "@/features/homepage/components/BlogGrid";
 import { BlogSectionSkeleton } from "@/components/loader/BlogSectionSkeleton";
@@ -47,9 +46,6 @@ export default function BlogPage() {
 }
 
 async function BlogList() {
-  "use cache";
-  cacheLife("days");
-
   const blogs = await getBlogCards();
   return <BlogGrid blogs={blogs} />;
 }

@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.sanity.io",
       },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+      },
     ],
   },
   typescript: {
@@ -22,18 +26,18 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/ingest/static/:path*',
-        destination: 'https://us-assets.i.posthog.com/static/:path*',
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
       },
       {
-        source: '/ingest/:path*',
-        destination: 'https://us.i.posthog.com/:path*',
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
       },
       {
-        source: '/api/c15t/:path*',
+        source: "/api/c15t/:path*",
         // Ensure destination is always a valid string starting with "/" or a full URL
         // If NEXT_PUBLIC_C15T_URL is not defined, this will default to a relative path
-        destination: `${process.env.NEXT_PUBLIC_C15T_URL || ''}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_C15T_URL || ""}/:path*`,
       },
     ];
   },

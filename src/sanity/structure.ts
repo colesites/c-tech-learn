@@ -7,6 +7,7 @@ import {
   CheckmarkIcon,
   LockIcon,
   DocumentsIcon,
+  TagIcon,
 } from "@sanity/icons";
 
 // Structure builder
@@ -19,6 +20,14 @@ export const structure: StructureResolver = (S) =>
         .title("Courses")
         .icon(BookIcon)
         .child(S.documentTypeList("courses").title("Courses")),
+
+      S.divider(),
+
+      // Enrollments (collection)
+      S.listItem()
+        .title("Enrollments")
+        .icon(CheckmarkIcon)
+        .child(S.documentTypeList("enrollment").title("Enrollments")),
 
       S.divider(),
 
@@ -62,7 +71,7 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType("privacyPolicy")
             .documentId("privacyPolicy")
-            .title("Privacy Policy")
+            .title("Privacy Policy"),
         ),
 
       S.divider(),
@@ -75,7 +84,7 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType("termsOfService")
             .documentId("termsOfService")
-            .title("Terms of Service")
+            .title("Terms of Service"),
         ),
 
       S.divider(),

@@ -6,6 +6,8 @@ import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import LessonPriceComp from "@/features/homepage/components/LessonPriceComp";
 import { getCoursesBySlug } from "@/sanity/lib/courses/getCoursesBySlug";
+import { ScrollProgressTracker } from "@/features/courses/components/ScrollProgressTracker";
+import { EnrollmentHandler } from "@/features/courses/components/EnrollmentHandler";
 
 export default async function LessonPage({
   params,
@@ -51,15 +53,30 @@ export default async function LessonPage({
       </MaxWidthWrapper>
     );
 
-  return (
-    <MaxWidthWrapper>
-      <div className="min-h-screen bg-background relative overflow-hidden pt-32 pb-24">
-        <div key={lesson.slug.current} className="mb-10">
-          <h2 className="text-4xl font-bold">{lesson.title}</h2>
-        </div>
+  const totalLessons =
+    course.curriculum?.reduce(
+      (acc: number, module: any) => acc + (module.lessons?.length || 0),
+      0,
+    ) || 1;
 
-        <PortableText value={lesson.content} />
+  return (
+    <div className="w-full relative overflow-hidden pt-6 pb-24 px-4 md:px-8 max-w-7xl mx-auto">
+      {session.user.email && (
+        <>
+          <EnrollmentHandler email={session.user.email} courseId={course._id} />
+          <ScrollProgressTracker
+            email={session.user.email}
+            courseId={course._id}
+            lessonId={lesson._id}
+            totalLessons={totalLessons}
+          />
+        </>
+      )}
+      <div key={lesson.slug.current} className="mb-10">
+        <h2 className="text-4xl font-bold">{lesson.title}</h2>
       </div>
-    </MaxWidthWrapper>
+
+      <PortableText value={lesson.content} />
+    </div>
   );
 }

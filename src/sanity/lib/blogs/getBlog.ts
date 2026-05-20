@@ -1,6 +1,6 @@
-import { groq } from "next-sanity";
-import { client } from "../client";
-import { BlockContent } from "../../../../sanity.types";
+import { defineQuery } from "next-sanity";
+import { sanityFetch } from "../live";
+import type { BlockContent } from "../../../../sanity.types";
 
 export type Blog = {
   _id: string;
@@ -35,7 +35,7 @@ export type Blog = {
   content: BlockContent;
 };
 
-const BLOG_FIELDS = groq`{
+const BLOG_FIELDS = `{
   _id,
   _createdAt,
   _updatedAt,
@@ -68,41 +68,20 @@ const BLOG_FIELDS = groq`{
   content
 }`;
 
-// All blogs, newest by created time
-export async function getAllBlogs(): Promise<Blog[]> {
-  const query = groq`*[_type == "blog"] | order(_createdAt desc) ${BLOG_FIELDS}`;
-  return client.fetch<Blog[]>(query);
-}
+const ALL_BLOGS_QUERY = defineQuery(
+  `*[_type == "blog"] | order(_createdAt desc) ${BLOG_FIELDS}`
+);
 
-// Single blog by slug
-export async function getBlogBySlug(slug: string): Promise<Blog | null> {
-  const query = groq`*[_type == "blog" && slug.current == $slug][0] ${BLOG_FIELDS}`;
-  return client.fetch<Blog | null>(query, { slug });
-}
+const BLOG_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "blog" && slug.current == $slug][0] ${BLOG_FIELDS}`
+);
 
-export async function getAllBlogSlugs(): Promise<{ slug: { current: string } }[]> {
-  const query = groq`*[_type == "blog"]{ "slug": slug{current} }`;
-  return client.fetch(query);
-}
+const ALL_BLOG_SLUGS_QUERY = defineQuery(
+  `*[_type == "blog"]{ "slug": slug{current} }`
+);
 
-
-// Lightweight list for cards (if you need it)
-export async function getBlogCards(): Promise<
-  Array<
-    Pick<
-      Blog,
-      | "_id"
-      | "title"
-      | "slug"
-      | "description"
-      | "_createdAt"
-      | "featuredImage"
-      | "category"
-      | "author"
-    > & { readMinutes?: number }
-  >
-> {
-  const query = groq`*[_type == "blog"] | order(_createdAt desc){
+const BLOG_CARDS_QUERY = defineQuery(`
+  *[_type == "blog"] | order(_createdAt desc){
     _id,
     _createdAt,
     title,
@@ -129,6 +108,42 @@ export async function getBlogCards(): Promise<
         }
       }
     }
-  }`;
-  return client.fetch(query);
+  }
+`);
+
+export type BlogCard = Pick<
+  Blog,
+  | "_id"
+  | "title"
+  | "slug"
+  | "description"
+  | "_createdAt"
+  | "featuredImage"
+  | "category"
+  | "author"
+> & { readMinutes?: number };
+
+export async function getAllBlogs(): Promise<Blog[]> {
+  const { data } = await sanityFetch({ query: ALL_BLOGS_QUERY });
+  return data as Blog[];
+}
+
+export async function getBlogBySlug(slug: string): Promise<Blog | null> {
+  const { data } = await sanityFetch({
+    query: BLOG_BY_SLUG_QUERY,
+    params: { slug },
+  });
+  return data as Blog | null;
+}
+
+export async function getAllBlogSlugs(): Promise<
+  { slug: { current: string } }[]
+> {
+  const { data } = await sanityFetch({ query: ALL_BLOG_SLUGS_QUERY });
+  return data as { slug: { current: string } }[];
+}
+
+export async function getBlogCards(): Promise<BlogCard[]> {
+  const { data } = await sanityFetch({ query: BLOG_CARDS_QUERY });
+  return data as BlogCard[];
 }
