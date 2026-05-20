@@ -1,11 +1,8 @@
+import { Suspense } from "react";
 import { getSession } from "@/lib/auth-server";
 import { ProtectedLayoutClient } from "./layout-client";
 
-export default async function ProtectedLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+async function ProtectedShell({ children }: { children: React.ReactNode }) {
   const session = await getSession();
 
   const user = session?.user
@@ -20,5 +17,23 @@ export default async function ProtectedLayout({
     <ProtectedLayoutClient user={user}>
       {children}
     </ProtectedLayoutClient>
+  );
+}
+
+export default function ProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense
+      fallback={
+        <ProtectedLayoutClient user={undefined}>
+          {children}
+        </ProtectedLayoutClient>
+      }
+    >
+      <ProtectedShell>{children}</ProtectedShell>
+    </Suspense>
   );
 }
